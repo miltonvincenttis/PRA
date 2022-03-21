@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Prefeitura: Reclame Aqui</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/index.css">
+
+    <!--
+        imagem criada por inkspace: logo.png
+        Icon converte: png -> ico 32x32
+        http://www.rw-designer.com/image-to-icon
+    -->
+    <link rel="icon" type="image/png" href="/img/logo.ico" />
+
+    <!-- coisas do bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    
+    <!-- js pra pagina index.html -->
+    <script src="/js/index.js"></script>
+
+    <!-- js pra trabalhar com cookies -->
+    <script src="/js/js.cookie.min.js"></script>
+    
+</head>
+<body onload="verificarAutenticacaoDeUsuario();">
+     
+
+<!-- Top Bar -->    
+<div class="top-bar">
+    <div class="containe-fluid">
+        <div class="ml-auto text-right" id="usuarioLogado">
+            <!--
+                aqui entra o nome da pessoa logada a partir de dados de cookies
+            -->
+            Não logado ainda
+        </div>
+    </div>
+</div>
+<!-- navigation --> 
+<div class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="/img/logo.png">            
+        </a>    
+        <span class="nome-app">
+            Prefeitura: Reclame aqui
+        </span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+            <span class="navbar-toggler-icon"></span>                  
+        </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item" id="pessoasMenu"><a href="#" class="nav-link" onclick="window.alert('Pessoas');">Pessoas</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Denúncias</a></li>
+                    <li class="nav-item" id="tiposProblemasMenu"><a href="#" class="nav-link" onclick="window.alert('Tipos Problemas');">Tipos Problemas</a></li>
+                    <li class="nav-item" id="dashboardMenu"><a href="#" class="nav-link" onclick="window.alert('Dashboard');">Dashboard</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link" onClick="sair()">Sair</a></li>
+                </ul>
+            </div>
+    </div>    
+</div>
+<!-- 
+    Aqui detectar se há denuncias.
+    Se não houver denuncias, apresentar a imagem abaixo
+-->
+
+    <div class="centralizado">
+        <img class="image-responsive" src="/img/icone-tela-vazia.png"/>        
+        <div class="row">
+            <div class="texto-tela-vazia">Por enquanto não há Denúncias cadastradas!</div>
+        </div>
+    </div>
+    
+</body>
+</html>

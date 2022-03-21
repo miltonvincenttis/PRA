@@ -1,0 +1,56 @@
+
+/*--- Media Queries --- */
+@media (max-width: 992px) {
+    
+}
+@media (max-width: 768px) {
+    
+}
+
+@media (max-width: 576px){
+
+}
+
+/*--- Bootstrp Padding Fix ---*/
+[class*="col-"]{
+    padding: 1rem;
+}
+
+
+/*--- TELA entrar.html ---*/
+h5.card-title{
+    margin-top: 10px;
+}
+
+#tela-entrar{
+    width: 310px;
+    height: 550px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 1px 5px 30px rgb(195, 195, 195);
+}
+
+div.form-group{
+    margin-top: 10px;
+}
+
+#msgErro {
+    visibility: hidden;
+    color: red;
+
+    font-size: 0.85rem;
+}
+
+.msgErro {
+    visibility: hidden;
+    color: red;
+    margin-top: -10px;
+    padding: 0px;
+    font-size: 0.6rem;
+}
+
+#msgErroServidor{
+    visibility: hidden;   
+}

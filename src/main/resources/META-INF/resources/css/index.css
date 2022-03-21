@@ -1,0 +1,27 @@
+/*--- Bootstrp Padding Fix ---*/
+[class*="col-"]{
+    padding: 1rem;
+}
+
+
+/*--- TELA index.html ---*/
+.nome-app{
+    font-weight: 700;
+}
+.centralizado {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.texto-tela-vazia{
+    font-size: 0.8rem;
+}
+
+/*--- deixa o nome do usuario afastado da margim direita ---*/
+
+#usuarioLogado {
+    margin-right: 40px;
+}

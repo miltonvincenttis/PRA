@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Prefeitura: Reclame Aqui - Entrar</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/entrar.css">
+
+    <!--
+        imagem criada por inkspace: logo.png
+        Icon converte: png -> ico 32x32
+        http://www.rw-designer.com/image-to-icon
+    -->
+    <link rel="icon" type="image/png" href="/img/logo.ico" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <script src="/js/entrar.js"></script>
+
+    <!-- js pra trabalhar com cookies -->
+    <script src="/js/js.cookie.min.js"></script>
+
+</head>
+
+<body>
+    <div class="card" id="tela-entrar">
+        <div class="card-body">
+            <div class="card-body">
+                <h5 class="card-title text-center">Prefeitura: Reclame Aqui</h5>
+            </div>
+            <div class="alert alert-danger text-center" id="msgErroServidor">Nome ou Senha inválidos</div>
+            <form >
+                <div class="form-group">
+                    <label>Usuário</label>
+                    <input class="form-control" oninput="limparAlerta('#msgErroUsuario')" id="usuarioInput" type="text" name="usuario" placeholder="Informe seu nome">                    
+                </div>
+                <div class="msgErro" id="msgErroUsuario">Voce deve informar seu nome de usuario</div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input class="form-control" oninput="limparAlerta('#msgErroSenha')" id="senhaInput" type="password" name="senha" placeholder="Informe sua senha">                    
+                </div>
+                <div class="msgErro" id="msgErroSenha">Voce deve informar uma senha</div>                
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary btn-block" onclick="validarDadosForm()">Entrar</button>    
+                </div>
+                
+                <div class="form-group" style="font-size: small;">
+                    <a href="#" class="stretched-link" data-toggle="modal" data-target="#ajudaModalCenter">Não consegue acessar a conta?</a>
+                </div>            
+
+                <div class="form-group stretched-link" style="font-size: small;">
+                    <a href="registrar.html" class="stretched-link">Novo aqui? Crie uma conta></a>
+                </div>            
+            </form>
+        </div>
+    </div>
+
+ 
+  <!-- Tela de ajuda: Não consigo acessar a conta -->
+  <div class="modal fade" id="ajudaModalCenter" tabindex="-1" role="dialog" aria-labelledby="ajudaModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="ajudaModalCenterTitle">Acessar a senha</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="text-center">Para acessar a senha, fale com um usuário Admin.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+
+</html>

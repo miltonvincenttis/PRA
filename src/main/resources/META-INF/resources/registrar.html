@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <title>Prefeitura: Reclame Aqui - Registrar</title>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/registrar.css">
+
+    <!--
+        imagem criada por inkspace: logo.png
+        Icon converte: png -> ico 32x32
+        http://www.rw-designer.com/image-to-icon
+    -->
+    <link rel="icon" type="image/png" href="/img/logo.ico" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
+    <script src="/js/registrar.js"></script>
+
+    <!-- js pra trabalhar com cookies -->
+    <script src="/js/js.cookie.min.js"></script>
+
+</head>
+
+<body>
+    <div class="card" id="tela-registrar">
+        <div class="card-body">
+            <h5 class="card-title text-center">Prefeitura: Reclame Aqui</h5>
+            <div class="alert alert-danger text-center" id="msgErroServidor">Usuário já existe com o nome</div>
+            <form >
+                <div class="form-group">
+                    <label>Usuário</label>
+                    <input class="form-control" oninput="limparAlerta('#msgErroUsuario')" id="usuarioInput" type="text" name="usuario" placeholder="Informe seu nome">                    
+                </div>
+                <div class="msgErro" id="msgErroUsuario">Voce deve informar seu nome de usuario</div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input class="form-control" oninput="limparAlerta('#msgErroSenha1')" id="senhaInput1" type="password" name="senha" placeholder="Informe sua senha">                    
+                </div>
+                <div class="msgErro" id="msgErroSenha1">Voce deve informar uma senha</div>                
+
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input class="form-control" oninput="limparAlerta('#msgErroSenha2')" id="senhaInput2" type="password" name="senha" placeholder="Informe a senha novamente">                    
+                </div>
+                <div class="msgErro" id="msgErroSenha2">Voce deve informar novamente a senha</div>                
+                <div class="msgErro" id="msgErroSenhaDiferentes">As senhas são diferentes</div>                    
+                <div class="form-group">
+                    <button type="button" class="btn btn-primary btn-block" onclick="validarDadosForm()">Entrar</button>    
+                </div>
+    
+                <div class="form-group stretched-link" style="font-size: small;">
+                    <a href="entrar.html" class="stretched-link">Já sou usuário</a>
+                </div>            
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

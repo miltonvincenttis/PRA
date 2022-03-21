@@ -1,0 +1,63 @@
+
+/*--- Media Queries --- */
+@media (max-width: 992px) {
+    
+}
+@media (max-width: 768px) {
+    
+}
+
+@media (max-width: 576px){
+
+}
+
+/*--- Bootstrp Padding Fix ---*/
+[class*="col-"]{
+    padding: 1rem;
+}
+
+
+/*--- TELA registrar.html ---*/
+h5.card-title{
+    margin-top: 20px;
+    padding: 0px;
+}
+div.card-body{
+    padding: 25px;
+   
+}
+
+#tela-registrar{
+    width: 310px;
+    height: 550px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 1px 5px 30px rgb(195, 195, 195);
+}
+
+div.form-group{
+    margin: 5px;
+    padding: 0px;
+}
+
+#msgErro {
+    visibility: hidden;
+    color: red;
+
+    font-size: 0.85rem;
+}
+
+.msgErro {
+    visibility: hidden;
+    color: red;
+    margin: 5px;
+    padding: 0px;
+    font-size: 0.6rem;
+}
+
+#msgErroServidor{
+    visibility: hidden;   
+}
+
