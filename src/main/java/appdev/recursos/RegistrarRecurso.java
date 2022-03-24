@@ -43,7 +43,7 @@ public class RegistrarRecurso {
         //--- procuramos pessoa pelo nome que esta tentando registrar
         Pessoa pessoa  = registrarServico.encontrePessoaPeloNome(registro.getUsuario());
 
-        //--- se pessoa é igual null (não encontrou) então vamos gravar o registro e retornar os cookies
+        //--- se pessoa é igual a null (não encontrou) então vamos gravar o registro e retornar os cookies
         if(pessoa == null) {
             //--- no registro inicial: usuário será 'comum'. Só usuario Admin pode mudar o tipo de usuário.
             boolean isAdmin = false;

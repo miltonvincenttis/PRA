@@ -1,0 +1,65 @@
+ Isso é um array contendo objetos Denuncia e seus objetos agregados.
+
+ A idéia é: toda vez que for necessário, enviar uma solicitação para recarregar o JSON da pagina principal.
+ O processamento será dinamico via AJAX e não haverá reload da pagina.
+
+ Como poderemos percorrer esse array?
+ Na resposta atribuir o conteudo a um array chamado denuncias, que ficará disponivel 
+ para ser processado na pagina principal.
+
+ for(var i=0; i< array.length; i++){
+     //--- acessar cada uma das denuncias pelo i
+     var denuncia = array[i];
+
+     //--- acessar os objetos internos: dados da denuncia
+     var id = denuncia.id;
+     var datahora = denuncia.datahora;
+     var descricao = denuncia.descricao;
+
+    ..
+    ..
+    ..
+ }
+
+=======================================================================================
+[
+{"denuncia":{
+    "id":"3ad31a1-31as13a1-31313113131",                            /* id no banco de dados */
+    "datahora":"01/01/2021 - 11:20",
+    "descricao":"Descrição de uma denúncia.",
+    "curtida":null,                                                 /* se houver id: id usuario curtiu | se null usuario atual não curtiu */
+    "pessoa": {
+        "id":"asdasdf-asdfa13131-3131313",                          /* permite saber quem criou a denuncia */
+        "nome":"Pessoa",
+        "admin":false
+    },
+    "tipoProblema":{
+        "id":"321asdf132-321asd123-asd321",
+        "datahora":"01/01/2021 - 11:20",
+        "descricao":"Descrição de um Tipo de Problema."
+    },
+    "comentario": {
+        "id":"aasdf321asdf-asd321asdf-asdf321adsf",                 /* id no banco de dados  */
+        "datahora":"01/01/2021 - 11:20",
+        "descricao":"Descrição de um Comentário.",
+        "pessoa": {                         
+            "id":"asdasdf-asdfa13131-3131313",                      /* permite saber quem comentou */
+            "nome":"Pessoa",
+            "admin":false
+        }
+    },
+    "solucao":{
+        "id":"aasdf321asdf-asd321asdf-asdf321adsf",
+        "datahora":"01/01/2021 - 11:20",
+        "descricao":"Descrição de uma Solução.",
+        "pessoa": {
+            "id":"asdasdf-asdfa13131-3131313",                      /* permite saber quem registrou a solução */
+            "nome":"Pessoa",
+            "admin":false
+        }
+    }
+}}
+]
+
+
+

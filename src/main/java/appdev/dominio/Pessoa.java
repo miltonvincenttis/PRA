@@ -1,12 +1,12 @@
 package appdev.dominio;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Objects;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Representa uma Pessoa.
@@ -19,15 +19,16 @@ public class Pessoa extends PanacheEntityBase implements Serializable {
     @Id
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @GeneratedValue(generator = "uuid")
+    @Column(name = "pessoas_id", length = 40)
     private String id;
 
-    @Column
+    @Column(length = 25)
     private String nome;
 
     @Column
     private boolean admin;
 
-    @Column
+    @Column(length = 15)
     private String senha;
 
     public String getId() {
@@ -60,28 +61,5 @@ public class Pessoa extends PanacheEntityBase implements Serializable {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("nome", nome)
-                .append("admin", admin)
-                .append("senha", senha)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pessoa pessoa = (Pessoa) o;
-        return admin == pessoa.admin && id.equals(pessoa.id) && Objects.equals(nome, pessoa.nome) && Objects.equals(senha, pessoa.senha);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nome, admin, senha);
     }
 }
