@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
- * Representa uma Solução.
+ * Representa uma Solução. Padrão Active Record.
  */
 @Entity
 @Table(name = "Solucoes")
@@ -30,6 +30,10 @@ public class Solucao extends PanacheEntityBase implements Serializable {
     @OneToOne
     @JoinColumn(name = "pessoas_fk")
     private Pessoa pessoa;
+
+    @OneToOne
+    @JoinColumn(name = "denuncias_fk")
+    private Denuncia denuncia;
 
     public String getId() {
         return id;
@@ -61,5 +65,13 @@ public class Solucao extends PanacheEntityBase implements Serializable {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public Denuncia getDenuncia() {
+        return denuncia;
+    }
+
+    public void setDenuncia(Denuncia denuncia) {
+        this.denuncia = denuncia;
     }
 }

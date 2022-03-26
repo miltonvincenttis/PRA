@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Representa uma Denúncia.
+ * Representa uma Denúncia. Padrão Active Record.
  */
 @Entity
 @Table(name = "denuncias")
@@ -29,7 +29,7 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "tipo_problemas_fk")
-    private TipoProblema tipoDeProblema;
+    private TipoDeProblema tipoDeProblema;
 
     @OneToMany
     @JoinColumn(name = "denuncias_fk")
@@ -65,11 +65,11 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
         this.pessoa = pessoa;
     }
 
-    public TipoProblema getTipoDeProblema() {
+    public TipoDeProblema getTipoDeProblema() {
         return tipoDeProblema;
     }
 
-    public void setTipoDeProblema(TipoProblema tipoDeProblema) {
+    public void setTipoDeProblema(TipoDeProblema tipoDeProblema) {
         this.tipoDeProblema = tipoDeProblema;
     }
 

@@ -2,14 +2,13 @@ package appdev.dominio;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 
-import java.util.HashSet;
-import java.util.Set;
-
 /**
- * Representa uma Pessoa.
+ * Representa uma Pessoa. Padrão Active Record.
  */
 @Entity
 @Table(name="pessoas")
@@ -26,10 +25,37 @@ public class Pessoa extends PanacheEntityBase implements Serializable {
     private String nome;
 
     @Column
-    private boolean admin;
+    private boolean admin = false;
 
     @Column(length = 15)
     private String senha;
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Encontra uma Pessoa pelo nome
+     */
+    @Transactional(Transactional.TxType.SUPPORTS)
+    public static Pessoa encontrarPessoaPeloNome(final String nome){
+        return Pessoa.find("nome", nome).firstResult();
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Grava uma Pessoa no banco de dados.
+     */
+    @Transactional
+    public static Pessoa incluir(Registro registro, boolean isAdmin){
+        Pessoa pessoa = new Pessoa();
+        pessoa.setNome(registro.getUsuario());
+        pessoa.setSenha(registro.getSenha());
+        pessoa.setAdmin(isAdmin);
+        pessoa.persist();
+        return pessoa;
+    }
+
+    //--------------------------------------------------------------------------
 
     public String getId() {
         return id;

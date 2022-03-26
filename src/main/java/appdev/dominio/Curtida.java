@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Essa classe representa uma Curtida.
+ * Essa classe representa uma Curtida. Padrão Active Record.
  */
 @Entity
 @Table(name = "Curtidas")

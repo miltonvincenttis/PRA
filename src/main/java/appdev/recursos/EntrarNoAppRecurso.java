@@ -2,9 +2,8 @@ package appdev.recursos;
 
 import appdev.dominio.Autenticacao;
 import appdev.dominio.Pessoa;
-import appdev.servicos.EntrarServico;
 import org.jboss.logging.Logger;
-import javax.inject.Inject;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,12 +16,8 @@ import javax.ws.rs.core.Response;
  * Esse recurso faz tratamento do caso de uso Entrar no App.
  */
 @Path("/entrar")
-public class EntrarRecurso {
-    private static final Logger LOGGER = Logger.getLogger(EntrarRecurso.class);
-
-    //--- injetamos o serviço EntrarServico
-    @Inject
-    EntrarServico entrarServico;
+public class EntrarNoAppRecurso {
+    private static final Logger LOGGER = Logger.getLogger(EntrarNoAppRecurso.class);
 
     /**
      * Recebemos um JSON: Autenticacao {"usuario":"valor", "senha":"valor"}.
@@ -41,7 +36,7 @@ public class EntrarRecurso {
         boolean resultadoOk = false;
 
         //--- procuramos a pessoa tentando entrar pelo nome
-        Pessoa pessoa  = entrarServico.encontrePessoaPeloNome(autenticacao.getUsuario());
+        Pessoa pessoa  = Pessoa.encontrarPessoaPeloNome(autenticacao.getUsuario());
 
         //--- se pessoa é diferente de null então vamos comparar a senha recebida com a do banco de dados.
         if(pessoa != null){

@@ -14,6 +14,8 @@
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
     <quarkus.platform.version>2.7.4.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
+    <maven.home>C:\workspace\infra\java-software\installed\apache-maven-3.8.4</maven.home>
+
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -37,6 +39,7 @@
       <artifactId>quarkus-resteasy</artifactId>
     </dependency>
 
+    <!-- Pra testes -->
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-junit5</artifactId>
@@ -88,9 +91,23 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-hibernate-validator</artifactId>
     </dependency>
-    <!-- fim-PERSISTENCE SESSION: -->
+    <!-- fim PERSISTENCE SESSION: -->
 
+    <!-- isso aqui ajuda a criar objetos JSON -->
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20220320</version>
+    </dependency>
+
+    <!-- isso daqui ajuda a transformar um objeto Java em objeto JSON -->
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.9.0</version>
+    </dependency>
   </dependencies>
+
   <build>
     <plugins>
       <plugin>

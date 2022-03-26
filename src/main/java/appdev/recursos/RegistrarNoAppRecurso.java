@@ -2,10 +2,8 @@ package appdev.recursos;
 
 import appdev.dominio.Registro;
 import appdev.dominio.Pessoa;
-import appdev.servicos.RegistrarServico;
 import org.jboss.logging.Logger;
 
-import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -17,12 +15,8 @@ import javax.ws.rs.core.Response;
  * Esse recurso faz tratamento do caso de uso Registrar no App.
  */
 @Path("/registrar")
-public class RegistrarRecurso {
-    private static final Logger LOGGER = Logger.getLogger(RegistrarRecurso.class);
-
-    //--- injetamos o serviço EntrarServico
-    @Inject
-    RegistrarServico registrarServico;
+public class RegistrarNoAppRecurso {
+    private static final Logger LOGGER = Logger.getLogger(RegistrarNoAppRecurso.class);
 
     /**
      * Recebemos um JSON: Autenticacao {"usuario":"valor", "senha":"valor"}.
@@ -41,7 +35,7 @@ public class RegistrarRecurso {
         boolean pessoaExiste = false;
 
         //--- procuramos pessoa pelo nome que esta tentando registrar
-        Pessoa pessoa  = registrarServico.encontrePessoaPeloNome(registro.getUsuario());
+        Pessoa pessoa  = Pessoa.encontrarPessoaPeloNome(registro.getUsuario());
 
         //--- se pessoa é igual a null (não encontrou) então vamos gravar o registro e retornar os cookies
         if(pessoa == null) {
@@ -49,7 +43,7 @@ public class RegistrarRecurso {
             boolean isAdmin = false;
 
             //--- gravamos a Pessoa se registrando no banco de dados
-            pessoa = registrarServico.gravarPessoa(registro, isAdmin);
+            pessoa = Pessoa.incluir(registro, isAdmin);
 
             return Response.status(Response.Status.CREATED).
                     cookie(

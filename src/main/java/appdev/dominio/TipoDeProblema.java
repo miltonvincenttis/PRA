@@ -7,12 +7,11 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * Representa um Tipo de Problema.
+ * Representa um Tipo de Problema. Padrão Active Record.
  */
-
 @Entity
 @Table(name = "tiposDeProblemas")
-public class TipoProblema extends PanacheEntityBase implements Serializable {
+public class TipoDeProblema extends PanacheEntityBase implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

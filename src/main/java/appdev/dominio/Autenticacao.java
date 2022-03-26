@@ -4,8 +4,8 @@ package appdev.dominio;
  * Classe que representa uma autenticacao, para receber o JSON {usuario, senha} enviado pela pagina entrar.html.
  */
 public class Autenticacao {
-    private String usuario = "";
-    private String senha = "";
+    protected String usuario = "";
+    protected String senha = "";
 
     public String getUsuario() {
         return usuario;
