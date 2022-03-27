@@ -46,16 +46,29 @@ public class Pessoa extends PanacheEntityBase implements Serializable {
      * Grava uma Pessoa no banco de dados.
      */
     @Transactional
-    public static Pessoa incluir(Registro registro, boolean isAdmin){
+    public static Pessoa incluir(Registro registro){
         Pessoa pessoa = new Pessoa();
         pessoa.setNome(registro.getUsuario());
         pessoa.setSenha(registro.getSenha());
-        pessoa.setAdmin(isAdmin);
+        //--- no registro inicial: usuário será 'comum'. Só usuario Admin pode mudar o tipo de usuário.
+        pessoa.setAdmin(false);
         pessoa.persist();
         return pessoa;
     }
 
     //--------------------------------------------------------------------------
+
+    /**
+     * Pega os dados da requisição e tenta gravar o que veio de la.
+     * Verifica se a idPessoa existe primeiro.
+     *
+     * @param pessoa
+     * @return
+     */
+    @Transactional
+    public static boolean alterar(PessoaRequisicao pessoa){
+        return true;
+    }
 
     public String getId() {
         return id;

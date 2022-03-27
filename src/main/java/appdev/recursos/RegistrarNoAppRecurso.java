@@ -39,17 +39,14 @@ public class RegistrarNoAppRecurso {
 
         //--- se pessoa é igual a null (não encontrou) então vamos gravar o registro e retornar os cookies
         if(pessoa == null) {
-            //--- no registro inicial: usuário será 'comum'. Só usuario Admin pode mudar o tipo de usuário.
-            boolean isAdmin = false;
-
             //--- gravamos a Pessoa se registrando no banco de dados
-            pessoa = Pessoa.incluir(registro, isAdmin);
+            pessoa = Pessoa.incluir(registro);
 
             return Response.status(Response.Status.CREATED).
                     cookie(
                             new NewCookie("appToken", pessoa.getId()),
                             new NewCookie("appNomeUsuario", registro.getUsuario()),
-                            new NewCookie("appPerfilUsuario", isAdmin? "admin":"comum")
+                            new NewCookie("appPerfilUsuario", "comum")
                     ).build();
         }else{
             //--- 403: Forbidden resposta: já existe usuario com mesmo nome
