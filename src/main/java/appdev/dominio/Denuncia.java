@@ -32,18 +32,18 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
     @JoinColumn(name = "tipo_problemas_fk")
     private TipoDeProblema tipoDeProblema;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "denuncias_fk")
     private Set<Comentario> comentarios = new HashSet();
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "denuncias_fk")
     private Set<Solucao> solucoes = new HashSet<>();
 
     @Column(name = "datahora")
     private LocalDateTime dataHora;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "denuncias_fk")
     private Set<Curtida> curtidas = new HashSet<>();
 
@@ -125,6 +125,21 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
         TipoDeProblema tpd = TipoDeProblema.findById(idTipoDeProblema);
 
         return Denuncia.find("tipoDeProblema", tpd).firstResult();
+    }
+
+    /**
+     * Verifica se Denuncia tem Comentarios ou Soluções.
+     *
+     * @param denunciaRequisicao
+     * @return
+     */
+    public static boolean podeRemover(DenunciaRequisicao denunciaRequisicao) {
+        Denuncia denuncia = Denuncia.findById(denunciaRequisicao.id);
+
+        boolean temComentario =  Comentario.find("denuncia", denuncia).firstResult() != null;
+        boolean temSolucao = Solucao.find("denuncia", denuncia).firstResult() != null;
+
+        return (temSolucao || temComentario);
     }
 
     public String getId() {

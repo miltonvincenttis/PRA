@@ -4,6 +4,7 @@ import appdev.dominio.*;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -102,12 +103,12 @@ public class GerenciarDenunciasRecurso {
      *
      * Regra:
      *  -Pessoa deve ser a mesma que criou a Denuncia : Isso é verificado no frontend: usuario logado mesmo criou.
-     *  -Não deve ter Comentario nem Solucao
+     *  -Não deve ter Comentario nem Solucao.
      *
      * @param denunciaRequisicao
      * @return 400, 403, 200, 404
      */
-    @POST
+    @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response remover(DenunciaRequisicao denunciaRequisicao){
@@ -116,12 +117,9 @@ public class GerenciarDenunciasRecurso {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        boolean temComentario =  Comentario.find("denuncia_fk", denunciaRequisicao.id).firstResult() != null;
-        boolean temSolucao = Solucao.find("denuncia_fk", denunciaRequisicao.id).firstResult() != null;
-
-        //--- se tem comentario ou tem solucao entao retornamos FORBIDDEN: proibido.
-        if(temSolucao || temComentario)
+        if(!Denuncia.podeRemover(denunciaRequisicao)){
             return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
         if (Denuncia.remover(denunciaRequisicao)) {
             return Response.status(Response.Status.OK).build();
@@ -134,7 +132,7 @@ public class GerenciarDenunciasRecurso {
     /**
      * Ok: testado no insomnia.
      *
-     * Verificar qual o formato de resposta no arquivo: src/tests/pessoa.list.json
+     * Verificar qual o formato de resposta no arquivo: src/tests/denuncias-lista.json.
      * @return json
      */
     @GET
@@ -144,13 +142,14 @@ public class GerenciarDenunciasRecurso {
         List<Denuncia> denuncias = Denuncia.listAll();
 
         /**
-         * Usamos aqui Gson (google) pois o jackson (Resteasy) engasga com um objeto tipo Denuncia
+         * Usamos aqui Gson (google) pois o jackson (Resteasy) engasga com um objeto tipo Denuncia.
          */
         GsonBuilder builder = new GsonBuilder();
         builder.serializeNulls();
         Gson json = builder.setPrettyPrinting().create();
 
-        return Response.ok(json.toJson(denuncias)).build();
+        //return Response.ok(json.toJson(denuncias)).build();
+        return Response.ok(denuncias).build();
     }
 
 

@@ -1,5 +1,7 @@
 package appdev.dominio;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.thoughtworks.xstream.converters.time.LocalDateTimeConverter;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Order;
@@ -293,6 +295,37 @@ public class DominioClassesTester {
 
         Denuncia denuncia = Denuncia.find("pessoa", pessoa ).firstResult();
         assertNotNull(denuncia, "Denuncia não foi encontrada para a Pessoa 367a2fa3-ab08-4f76-95bc-c7d9bd684493");
+    }
+
+    @Test
+    public void testaSeComentarioESolucaoEstaoVindoComDenuncia(){
+        Denuncia denuncia = Denuncia.findById("28e53548-5bf4-423b-bd4b-5ffc0793d242");
+
+        assertTrue( denuncia.getComentarios().size() != 0 && denuncia.getSolucoes().size() != 0);
+
+        GsonBuilder builder = new GsonBuilder();
+        builder.serializeNulls();
+        Gson json = builder.setPrettyPrinting().create();
+
+        System.out.println(json.toJson(denuncia));
+    }
+
+    @Test
+    public void testaSeGravaCurtidaCampoDenunciaComoTransient(){
+        Curtida curtida = new Curtida();
+        Denuncia  denuncia = Denuncia.findById("eeacc3e0-0367-4895-8112-00916f811973");
+        Pessoa pessoa = Pessoa.findById("367a2fa3-ab08-4f76-95bc-c7d9bd684493");
+
+        assertNotNull(denuncia, "Denuncia eeacc3e0-0367-4895-8112-00916f811973 não foi encontrada");
+        assertNotNull(pessoa, "Pessoa 367a2fa3-ab08-4f76-95bc-c7d9bd684493 não foi encontrada");
+
+        curtida.setDenuncia(denuncia);
+        curtida.setPessoa(pessoa);
+
+        curtida.persist();
+
+        assertNotNull(curtida.getId());
+
     }
 
 }

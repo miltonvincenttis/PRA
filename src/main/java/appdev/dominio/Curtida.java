@@ -1,5 +1,6 @@
 package appdev.dominio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -19,6 +20,9 @@ public class Curtida extends PanacheEntityBase implements Serializable {
     @Column(name="curtidas_id")
     private String id;
 
+    /**
+     * TODO: achar um jeito de não serializar isso aqui!
+     */
     @OneToOne
     @JoinColumn(name = "denuncias_fk")
     private Denuncia curtida;
