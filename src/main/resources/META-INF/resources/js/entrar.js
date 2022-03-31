@@ -67,7 +67,7 @@ function enviarDadosParaServidor(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost:8080/entrar";
+    let url = "http://localhost/entrar";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");

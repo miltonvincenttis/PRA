@@ -55,6 +55,12 @@ public class Curtida extends PanacheEntityBase implements Serializable {
         return Curtida.deleteById(curtidaRequisicao.id);
     }
 
+    @Transactional
+    public static boolean jaCurtido(CurtidaRequisicao curtidaRequisicao, Denuncia denuncia, Pessoa pessoa){
+        //--- 1o vamos verificar se não esta curtindo uma curtida anterior
+       return Curtida.find("denuncia = ?1 and pessoa=?2", denuncia, pessoa ).firstResult() != null;
+    }
+
     public String getId() {
         return id;
     }

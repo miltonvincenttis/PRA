@@ -1,9 +1,6 @@
 package appdev.recursos;
 
-import appdev.dominio.Curtida;
-import appdev.dominio.CurtidaRequisicao;
-import appdev.dominio.Denuncia;
-import appdev.dominio.DenunciaRequisicao;
+import appdev.dominio.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -172,6 +169,15 @@ public class GerenciarDenunciasRecurso {
 
         //--- se veio o id da curtida então foi feito uma solicitação errada, pois já está curtida: proibido
         if(curtidaRequisicao.id != null && curtidaRequisicao.id.length() != 0){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        //--- verifica se já foi curtida: dois argumentos idDenuncia, idPessoa
+        Denuncia denuncia = Denuncia.findById(curtidaRequisicao.idDenuncia);
+        Pessoa pessoa = Pessoa.findById(curtidaRequisicao.idPessoa);
+
+        //--- ja curtido antes, proibido
+        if(Curtida.jaCurtido(curtidaRequisicao, denuncia, pessoa)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
