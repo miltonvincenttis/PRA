@@ -31,7 +31,7 @@ import javax.ws.rs.core.Response;
  *
  */
 @Path("/solucoes")
-public class GerenciarSolucaoRecurso {
+public class GerenciarSolucoesRecurso {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
