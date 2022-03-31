@@ -17,7 +17,6 @@ import javax.ws.rs.core.Response;
  */
 @Path("/entrar")
 public class EntrarNoAppRecurso {
-    private static final Logger LOGGER = Logger.getLogger(EntrarNoAppRecurso.class);
 
     /**
      * Recebemos um JSON: Autenticacao {"usuario":"valor", "senha":"valor"}.
@@ -31,8 +30,6 @@ public class EntrarNoAppRecurso {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response entrar(Autenticacao autenticacao) {
-        LOGGER.debug("usuario: "+autenticacao.getUsuario()+"\n "+"senha: "+autenticacao.getSenha());
-
         boolean resultadoOk = false;
 
         //--- procuramos a pessoa tentando entrar pelo nome

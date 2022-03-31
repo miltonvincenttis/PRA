@@ -29,6 +29,7 @@ import javax.ws.rs.core.Response;
  * 403: forbidden: encontrou Comentario ou Solucao
  * 404: not found: não encontrou a Denuncia
  *
+ * TODO: Testar no insomnia.
  */
 @Path("/comentarios")
 public class GerenciarComentariosRecurso {

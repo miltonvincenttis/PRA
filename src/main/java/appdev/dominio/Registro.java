@@ -9,4 +9,6 @@ import java.io.Serializable;
  * Por isso herda os dados de Autenticacao, e serve apenas para se diferenciar.
  *
  */
-public class Registro extends Autenticacao implements Serializable {}
+public class Registro extends Autenticacao implements Serializable {
+    private static final long serialVersionUID = 1L;
+}

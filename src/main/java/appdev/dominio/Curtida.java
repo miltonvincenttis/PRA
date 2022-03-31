@@ -15,6 +15,8 @@ import java.io.Serializable;
 @Entity
 @Table(name = "Curtidas")
 public class Curtida extends PanacheEntityBase implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GenericGenerator(name = "uuid", strategy = "org.hibernate.id.UUIDGenerator")
     @GeneratedValue(generator = "uuid")

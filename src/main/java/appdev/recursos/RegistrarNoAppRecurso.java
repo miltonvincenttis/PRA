@@ -48,9 +48,9 @@ public class RegistrarNoAppRecurso {
                             new NewCookie("appNomeUsuario", registro.getUsuario()),
                             new NewCookie("appPerfilUsuario", "comum")
                     ).build();
-        }else{
-            //--- 403: Forbidden resposta: já existe usuario com mesmo nome
-            return Response.status(Response.Status.FORBIDDEN).build();
         }
+
+        //--- 403: Forbidden resposta: já existe usuario com mesmo nome
+        return Response.status(Response.Status.FORBIDDEN).build();
     }
 }
