@@ -1,5 +1,6 @@
 package appdev.dominio;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -10,6 +11,8 @@ import java.io.Serializable;
 /**
  * Representa uma Pessoa. Padrão Active Record.
  */
+
+@JsonIgnoreProperties({"senha"})
 @Entity
 @Table(name="pessoas")
 public class Pessoa extends PanacheEntityBase implements Serializable {

@@ -1,10 +1,10 @@
 package appdev.recursos;
 
-import appdev.dominio.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import appdev.dominio.Curtida;
+import appdev.dominio.CurtidaRequisicao;
+import appdev.dominio.Denuncia;
+import appdev.dominio.DenunciaRequisicao;
 
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -16,7 +16,7 @@ import java.util.List;
  * Incluir
  * POST: /denuncia
  * 200: ok
- * 400: bad request: id não veio ou está vazio
+ * 400: bad request: id de Pessoa ou TipoDeProblema não veio ou está vazio
  * 404: not found: não encontrou ou Pessoa ou TipoDeProblema
  *
  * Alterar
@@ -33,17 +33,17 @@ import java.util.List;
  * 404: not found: não encontrou a Denuncia
  *
  * Lista todas
- * GET: /denuncia/todas
+ * GET: /denuncias/curtidas
  * 200: ok
  *
  * Incluir Curtida
- * POST: /denuncia/curtida
+ * POST: /denuncias/curtidas
  * 403: forbidden: proibido a operação correta é descurtir: veio o id da curtida
  * 200: ok
  * 404: not found: não encontrou ou a Pessoa ou a Denuncia
  *
  * Remover Curtida
- * DELETE: /denuncia/curtida
+ * DELETE: /denuncias/curtidas
  * 200: ok
  * 400: bad request: não veio id: da Curtida
  * 404: not found: não encontrou a Curtida
@@ -52,6 +52,7 @@ import java.util.List;
 public class GerenciarDenunciasRecurso {
 
     /***
+     * Ok: testado
      * Incluir Denuncia.
      */
     @POST
@@ -73,6 +74,8 @@ public class GerenciarDenunciasRecurso {
 
 
     /**
+     * Ok: testado no insomnia.
+     *
      * Campos que podem ser alterados:
      *
      * -descricao
@@ -86,7 +89,9 @@ public class GerenciarDenunciasRecurso {
     @Produces(MediaType.APPLICATION_JSON)
     public Response alterar(DenunciaRequisicao denunciaRequisicao) {
         //--- verificamos que o idDenuncia veio, se não BAD REQUEST
-        if (denunciaRequisicao.id == null || denunciaRequisicao.id.length() == 0) {
+        if (denunciaRequisicao.id == null || denunciaRequisicao.id.length() == 0 ||
+            denunciaRequisicao.idTipoDeProblema == null || denunciaRequisicao.idTipoDeProblema.length() == 0 ||
+            denunciaRequisicao.descricao == null ||  denunciaRequisicao.descricao.length() == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -99,7 +104,7 @@ public class GerenciarDenunciasRecurso {
 
 
     /**
-     * Remover Denuncia.
+     * Ok: testado no insomnia.
      *
      * Regra:
      *  -Pessoa deve ser a mesma que criou a Denuncia : Isso é verificado no frontend: usuario logado mesmo criou.
@@ -141,19 +146,13 @@ public class GerenciarDenunciasRecurso {
     public Response listarTodas(){
         List<Denuncia> denuncias = Denuncia.listAll();
 
-        /**
-         * Usamos aqui Gson (google) pois o jackson (Resteasy) engasga com um objeto tipo Denuncia.
-         */
-        GsonBuilder builder = new GsonBuilder();
-        builder.serializeNulls();
-        Gson json = builder.setPrettyPrinting().create();
-
-        //return Response.ok(json.toJson(denuncias)).build();
         return Response.ok(denuncias).build();
     }
 
 
     /**
+     * Ok: testado no insomnia.
+     *
      * A decisão de qual operação chamar, curtir ou descurtir é feito no frontend.
      *
      * @param curtidaRequisicao
@@ -185,6 +184,8 @@ public class GerenciarDenunciasRecurso {
 
 
     /**
+     * Ok: testado no insomnia.
+     *
      * A decisão de qual operação chamar, curtir ou descurtir é feito no frontend.
      *
      * @param curtidaRequisicao
@@ -195,8 +196,8 @@ public class GerenciarDenunciasRecurso {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response descurtir(CurtidaRequisicao curtidaRequisicao){
-        //--- verifica se veio idCurtida e idPessoa e idDenuncia
-        if(curtidaRequisicao.id != null && curtidaRequisicao.id.length() != 0){
+        //--- verifica se veio idCurtida
+        if(curtidaRequisicao.id == null || curtidaRequisicao.id.length() == 0){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 

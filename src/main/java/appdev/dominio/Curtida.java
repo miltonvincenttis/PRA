@@ -1,6 +1,6 @@
 package appdev.dominio;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -11,6 +11,7 @@ import java.io.Serializable;
 /**
  * Essa classe representa uma Curtida. Padrão Active Record.
  */
+@JsonIgnoreProperties({"denuncia"})
 @Entity
 @Table(name = "Curtidas")
 public class Curtida extends PanacheEntityBase implements Serializable {
@@ -25,7 +26,7 @@ public class Curtida extends PanacheEntityBase implements Serializable {
      */
     @OneToOne
     @JoinColumn(name = "denuncias_fk")
-    private Denuncia curtida;
+    private Denuncia denuncia;
 
     @OneToOne
     @JoinColumn(name = "pessoas_fk")
@@ -63,11 +64,11 @@ public class Curtida extends PanacheEntityBase implements Serializable {
     }
 
     public Denuncia getDenuncia() {
-        return curtida;
+        return denuncia;
     }
 
     public void setDenuncia(Denuncia denuncia) {
-        this.curtida = denuncia;
+        this.denuncia = denuncia;
     }
 
     public Pessoa getPessoa() {

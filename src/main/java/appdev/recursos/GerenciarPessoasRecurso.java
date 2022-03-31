@@ -118,15 +118,6 @@ public class GerenciarPessoasRecurso {
     public Response listarTodas(){
         List<Pessoa> pessoas = Pessoa.listAll();
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.serializeNulls();
-        Gson json = builder.setPrettyPrinting().create();
-
-        //---limpa a senha dos objetos primeiro
-        for(Pessoa pessoa: pessoas){
-            pessoa.setSenha(null);
-        }
-
-        return Response.ok(json.toJson(pessoas)).build();
+        return Response.ok(pessoas).build();
     }
 }

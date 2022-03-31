@@ -1,0 +1,7 @@
+{
+  "id": String,
+  "descricao": String,
+  "datahora:": String,
+  "idPessoa": String,
+  "idDenuncia": String
+}

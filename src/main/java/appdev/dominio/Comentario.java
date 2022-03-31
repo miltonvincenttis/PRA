@@ -37,6 +37,19 @@ public class Comentario extends PanacheEntityBase implements Serializable {
     @JsonIgnore
     private Denuncia denuncia;
 
+    public static boolean incluir(ComentarioRequisicao comentarioRequisicao) {
+        return false;
+    }
+
+    public static boolean alterar(ComentarioRequisicao comentarioRequisicao) {
+        return false;
+
+    }
+
+    public static boolean remover(ComentarioRequisicao comentarioRequisicao) {
+        return false;
+    }
+
     public String getId() {
         return id;
     }

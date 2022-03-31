@@ -88,7 +88,11 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
         boolean resultado = false;
 
         Denuncia denuncia = Denuncia.findById(denunciaRequisicao.id);
-        TipoDeProblema tdp = TipoDeProblema.findById(denunciaRequisicao.idTipoDeProblema);
+        TipoDeProblema tdp = null;
+
+        if(denuncia != null){
+            tdp = TipoDeProblema.findById(denunciaRequisicao.idTipoDeProblema);
+        }
 
         if(denuncia != null && tdp != null){
             resultado = true;
@@ -139,7 +143,7 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
         boolean temComentario =  Comentario.find("denuncia", denuncia).firstResult() != null;
         boolean temSolucao = Solucao.find("denuncia", denuncia).firstResult() != null;
 
-        return (temSolucao || temComentario);
+        return (!temSolucao && !temComentario);
     }
 
     public String getId() {

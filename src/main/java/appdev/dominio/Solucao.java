@@ -37,6 +37,18 @@ public class Solucao extends PanacheEntityBase implements Serializable {
     @JsonIgnore
     private Denuncia denuncia;
 
+    public static boolean incluir(SolucaoRequisicao solucaoRequisicao) {
+        return false;
+    }
+
+    public static boolean alterar(SolucaoRequisicao solucaoRequisicao) {
+        return false;
+    }
+
+    public static boolean remover(SolucaoRequisicao solucaoRequisicao) {
+        return false;
+    }
+
     public String getId() {
         return id;
     }

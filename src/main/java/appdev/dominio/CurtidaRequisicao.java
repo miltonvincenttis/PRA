@@ -3,8 +3,12 @@ package appdev.dominio;
 /**
  * Essa classe representa o JSON que vem da requisição:
  *
- *  - POST   http://localhost:8080/curtida  (curtida)
- *  - DELETE http://localhost:8080/curtida  (descurtida)
+ *  Requisicões:
+ *
+ *  POST   http://localhost:8080/denuncias/curtidas        (curtir)
+ *  DELETE http://localhost:8080/denuncias/curtidas        (descurtir)
+ *
+ *  JSON: consultar o arquivo: src/test/curtida-requisicao.json
  *
  */
 public class CurtidaRequisicao {

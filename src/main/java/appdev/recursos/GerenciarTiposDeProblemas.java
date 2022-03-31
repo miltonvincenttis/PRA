@@ -106,10 +106,6 @@ public class GerenciarTiposDeProblemas {
     public Response listar(){
         List<TipoDeProblema> tdps = TipoDeProblema.listAll();
 
-        GsonBuilder builder = new GsonBuilder();
-        builder.serializeNulls();
-        Gson json = builder.setPrettyPrinting().create();
-
-        return Response.ok(json.toJson(tdps)).build();
+        return Response.ok(tdps).build();
     }
 }
