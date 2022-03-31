@@ -38,15 +38,52 @@ public class Solucao extends PanacheEntityBase implements Serializable {
     private Denuncia denuncia;
 
     public static boolean incluir(SolucaoRequisicao solucaoRequisicao) {
-        return false;
+        boolean resultado = false;
+        Denuncia denuncia = Denuncia.findById(solucaoRequisicao.idDenuncia);
+        Pessoa pessoa = Pessoa.findById(solucaoRequisicao.idPessoa);
+
+        Comentario solucao = new Comentario();
+        if(denuncia != null && pessoa != null){
+            solucao.setDenuncia(denuncia);
+            solucao.setPessoa(pessoa);
+            solucao.setDescricao(solucaoRequisicao.descricao);
+            solucao.setDataHora(LocalDateTime.now());
+            solucao.persist();
+
+            resultado = true;
+        }
+
+        return resultado;
     }
 
+    /**
+     *
+     * @param solucaoRequisicao
+     * @return true encontrou ou alterou Solucao | false se não encontrou o Solucao
+     */
     public static boolean alterar(SolucaoRequisicao solucaoRequisicao) {
-        return false;
+        boolean resultado = false;
+        Solucao solucao = Comentario.findById(solucaoRequisicao.id);
+
+        if(solucao != null){
+            //--- se descricao é diferente do gravado, alterar descricao e datahora
+            if(!solucao.getDescricao().equalsIgnoreCase(solucaoRequisicao.descricao)){
+                solucao.setDescricao(solucaoRequisicao.descricao);
+                solucao.setDataHora(LocalDateTime.now());
+                solucao.persist();
+            }
+            resultado = true;
+        }
+        return resultado;
     }
 
+    /**
+     *
+     * @param solucaoRequisicao
+     * @return true se deletou | false se não
+     */
     public static boolean remover(SolucaoRequisicao solucaoRequisicao) {
-        return false;
+        return Solucao.deleteById(solucaoRequisicao.id);
     }
 
     public String getId() {

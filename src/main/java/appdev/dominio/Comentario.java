@@ -5,6 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -37,17 +38,57 @@ public class Comentario extends PanacheEntityBase implements Serializable {
     @JsonIgnore
     private Denuncia denuncia;
 
+    /**
+     * @param comentarioRequisicao
+     * @return true se inclusa ok | false se não encontrou ou denuncia ou pessoa.
+     */
     public static boolean incluir(ComentarioRequisicao comentarioRequisicao) {
-        return false;
+        boolean resultado = false;
+        Denuncia denuncia = Denuncia.findById(comentarioRequisicao.idDenuncia);
+        Pessoa pessoa = Pessoa.findById(comentarioRequisicao.idPessoa);
+
+        Comentario comentario = new Comentario();
+        if(denuncia != null && pessoa != null){
+            comentario.setDenuncia(denuncia);
+            comentario.setPessoa(pessoa);
+            comentario.setDescricao(comentarioRequisicao.descricao);
+            comentario.setDataHora(LocalDateTime.now());
+            comentario.persist();
+
+            resultado = true;
+        }
+
+        return resultado;
     }
 
+    /**
+     *
+     * @param comentarioRequisicao
+     * @return true encontrou ou alterou Comentario | false se não encontrou o Comentario
+     */
     public static boolean alterar(ComentarioRequisicao comentarioRequisicao) {
-        return false;
+        boolean resultado = false;
+        Comentario comentario = Comentario.findById(comentarioRequisicao.id);
 
+        if(comentario != null){
+            //--- se descricao é diferente do gravado, alterar descricao e datahora
+            if(!comentario.getDescricao().equalsIgnoreCase(comentarioRequisicao.descricao)){
+                comentario.setDescricao(comentarioRequisicao.descricao);
+                comentario.setDataHora(LocalDateTime.now());
+                comentario.persist();
+            }
+            resultado = true;
+        }
+        return resultado;
     }
 
+    /**
+     *
+     * @param comentarioRequisicao
+     * @return true se deletou | false se não
+     */
     public static boolean remover(ComentarioRequisicao comentarioRequisicao) {
-        return false;
+        return Comentario.deleteById(comentarioRequisicao.id);
     }
 
     public String getId() {

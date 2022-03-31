@@ -26,6 +26,8 @@ import java.util.List;
  *
  * Lista todas
  * GET: /pessoas
+ *
+ * TODO: Testar no isomnia
  */
 
 @Path("/pessoas")

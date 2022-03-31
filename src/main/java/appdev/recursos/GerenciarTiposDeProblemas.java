@@ -3,10 +3,7 @@ package appdev.recursos;
 import appdev.dominio.Denuncia;
 import appdev.dominio.TipoDeProblema;
 import appdev.dominio.TipoDeProblemaRequisicao;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
-import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -103,7 +100,7 @@ public class GerenciarTiposDeProblemas {
      * @return json
      */
     @GET
-    public Response listar(){
+    public Response listarTodos(){
         List<TipoDeProblema> tdps = TipoDeProblema.listAll();
 
         return Response.ok(tdps).build();
