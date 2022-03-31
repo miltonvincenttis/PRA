@@ -1,6 +1,7 @@
 package appdev.dominio;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -208,5 +210,32 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("pessoa", pessoa)
+                .append("tipoDeProblema", tipoDeProblema)
+                .append("comentarios", comentarios)
+                .append("solucoes", solucoes)
+                .append("dataHora", dataHora)
+                .append("curtidas", curtidas)
+                .append("descricao", descricao)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Denuncia denuncia = (Denuncia) o;
+        return Objects.equals(id, denuncia.id) && Objects.equals(pessoa, denuncia.pessoa) && Objects.equals(tipoDeProblema, denuncia.tipoDeProblema) && Objects.equals(comentarios, denuncia.comentarios) && Objects.equals(solucoes, denuncia.solucoes) && Objects.equals(dataHora, denuncia.dataHora) && Objects.equals(curtidas, denuncia.curtidas) && Objects.equals(descricao, denuncia.descricao);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, pessoa, tipoDeProblema, comentarios, solucoes, dataHora, curtidas, descricao);
     }
 }

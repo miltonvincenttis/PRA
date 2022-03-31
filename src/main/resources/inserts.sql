@@ -39,7 +39,7 @@ values
 	't',
     '123'
 );
--- select todo mundo
+-- select todos
 select * from pessoas;
 
 -- select para pessoas admin

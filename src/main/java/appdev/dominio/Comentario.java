@@ -2,12 +2,15 @@ package appdev.dominio;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Representa um Comentário. Padrão Active Record.
@@ -42,6 +45,7 @@ public class Comentario extends PanacheEntityBase implements Serializable {
      * @param comentarioRequisicao
      * @return true se inclusa ok | false se não encontrou ou denuncia ou pessoa.
      */
+    @Transactional
     public static boolean incluir(ComentarioRequisicao comentarioRequisicao) {
         boolean resultado = false;
         Denuncia denuncia = Denuncia.findById(comentarioRequisicao.idDenuncia);
@@ -66,6 +70,7 @@ public class Comentario extends PanacheEntityBase implements Serializable {
      * @param comentarioRequisicao
      * @return true encontrou ou alterou Comentario | false se não encontrou o Comentario
      */
+    @Transactional
     public static boolean alterar(ComentarioRequisicao comentarioRequisicao) {
         boolean resultado = false;
         Comentario comentario = Comentario.findById(comentarioRequisicao.id);
@@ -87,6 +92,7 @@ public class Comentario extends PanacheEntityBase implements Serializable {
      * @param comentarioRequisicao
      * @return true se deletou | false se não
      */
+    @Transactional
     public static boolean remover(ComentarioRequisicao comentarioRequisicao) {
         return Comentario.deleteById(comentarioRequisicao.id);
     }
@@ -129,5 +135,29 @@ public class Comentario extends PanacheEntityBase implements Serializable {
 
     public void setDenuncia(Denuncia denuncia) {
         this.denuncia = denuncia;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("dataHora", dataHora)
+                .append("descricao", descricao)
+                .append("pessoa", pessoa)
+                .append("denuncia", denuncia)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Comentario that = (Comentario) o;
+        return Objects.equals(id, that.id) && Objects.equals(dataHora, that.dataHora) && Objects.equals(descricao, that.descricao) && Objects.equals(pessoa, that.pessoa) && Objects.equals(denuncia, that.denuncia);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, dataHora, descricao, pessoa, denuncia);
     }
 }

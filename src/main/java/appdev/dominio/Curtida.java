@@ -2,11 +2,13 @@ package appdev.dominio;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Essa classe representa uma Curtida. Padrão Active Record.
@@ -82,5 +84,27 @@ public class Curtida extends PanacheEntityBase implements Serializable {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this)
+                .append("id", id)
+                .append("denuncia", denuncia)
+                .append("pessoa", pessoa)
+                .toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Curtida curtida = (Curtida) o;
+        return Objects.equals(id, curtida.id) && Objects.equals(denuncia, curtida.denuncia) && Objects.equals(pessoa, curtida.pessoa);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, denuncia, pessoa);
     }
 }
