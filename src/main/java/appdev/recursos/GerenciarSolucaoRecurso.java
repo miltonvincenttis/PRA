@@ -3,10 +3,8 @@ package appdev.recursos;
 import appdev.dominio.Solucao;
 import appdev.dominio.SolucaoRequisicao;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -35,6 +33,8 @@ import javax.ws.rs.core.Response;
 @Path("/solucoes")
 public class GerenciarSolucaoRecurso {
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response incluir(SolucaoRequisicao solucaoRequisicao){
         //--- verificamos se descricao, idPessoa, idDenuncia vieram
         if(solucaoRequisicao.descricao == null || solucaoRequisicao.descricao.length() == 0 ||
@@ -52,6 +52,8 @@ public class GerenciarSolucaoRecurso {
     }
 
     @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response alterar(SolucaoRequisicao solucaoRequisicao){
         //--- verificamos se id e descricao vieram
         if(solucaoRequisicao.descricao == null || solucaoRequisicao.descricao.length() == 0 ||
@@ -68,6 +70,8 @@ public class GerenciarSolucaoRecurso {
     }
 
     @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response remover(SolucaoRequisicao solucaoRequisicao){
         //--- verificamos se id veio
         if(solucaoRequisicao.id == null || solucaoRequisicao.id.length() == 0){

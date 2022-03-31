@@ -3,10 +3,8 @@ package appdev.recursos;
 import appdev.dominio.Comentario;
 import appdev.dominio.ComentarioRequisicao;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -35,6 +33,8 @@ import javax.ws.rs.core.Response;
 @Path("/comentarios")
 public class GerenciarComentariosRecurso {
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response incluir(ComentarioRequisicao comentarioRequisicao){
         //--- verificamos se descricao, idPessoa, idDenuncia vieram
         if(comentarioRequisicao.descricao == null || comentarioRequisicao.descricao.length() == 0 ||
@@ -52,6 +52,8 @@ public class GerenciarComentariosRecurso {
     }
 
     @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response alterar(ComentarioRequisicao comentarioRequisicao){
         //--- verificamos se id e descricao vieram
         if(comentarioRequisicao.descricao == null || comentarioRequisicao.descricao.length() == 0 ||
@@ -68,6 +70,8 @@ public class GerenciarComentariosRecurso {
     }
 
     @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response remover(ComentarioRequisicao comentarioRequisicao){
         //--- verificamos se id veio
         if(comentarioRequisicao.id == null || comentarioRequisicao.id.length() == 0){
