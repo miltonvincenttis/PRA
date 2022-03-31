@@ -10,7 +10,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
 
 /**
- * Essa classe Recurso faz tratamento do Caso de Uso: Gerenciar Denuncias.
+ * Essa classe Recurso faz tratamento do Caso de Uso: Gerenciar Comentarios.
  *
  * Incluir
  * POST: /comentarios
