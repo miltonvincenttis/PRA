@@ -1,0 +1,7 @@
+{
+  "id": null,
+  "descricao": "String",
+  "datahora": "LocalDateTime",
+  "idPessoa": "String",
+  "idTipoDeProblema": "String"
+}

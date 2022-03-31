@@ -62,12 +62,35 @@ public class Pessoa extends PanacheEntityBase implements Serializable {
      * Pega os dados da requisição e tenta gravar o que veio de la.
      * Verifica se a idPessoa existe primeiro.
      *
-     * @param pessoa
+     * @param pessoaAlterada
      * @return
      */
     @Transactional
-    public static boolean alterar(PessoaRequisicao pessoa){
-        return true;
+    public static boolean alterar(PessoaRequisicao pessoaAlterada){
+        boolean result = false;
+
+        //--- achamos a Pessoa e configuramos seus campos vindo do frontend.
+        Pessoa pessoa = Pessoa.findById(pessoaAlterada.id);
+        if(pessoa != null ){
+            //--- Nota: unicos campos alteraveis em Pessoa: nome, admin
+            //--- senha e id não se alteram
+            pessoa.setNome(pessoaAlterada.nome);
+            pessoa.setAdmin(pessoaAlterada.admin);
+            pessoa.persist();
+            result = true;
+        }
+        return result;
+    }
+
+    /**
+     * Remove direto sem choro nem vela.
+     *
+     * @param pessoaRequisicao
+     * @return true conseguiu revover | false não conseguiu remover
+     */
+    @Transactional
+    public static boolean remover(PessoaRequisicao pessoaRequisicao){
+        return Pessoa.deleteById(pessoaRequisicao.id);
     }
 
     public String getId() {

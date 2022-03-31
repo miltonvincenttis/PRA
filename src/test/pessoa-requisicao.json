@@ -1,0 +1,6 @@
+//--- esse é um objeto Pessoa em JSON
+{
+  "id": "d5d6dc5f-4028-4ad2-ad2b-2f5af1c651e8",
+  "nome": "Milton Lima",
+  "admin": true
+}

@@ -4,11 +4,10 @@ import appdev.dominio.Autenticacao;
 import appdev.dominio.Registro;
 import com.google.gson.Gson;
 import io.quarkus.test.junit.QuarkusTest;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
-import java.rmi.server.UID;
+import javax.ws.rs.core.Response;
 import java.util.UUID;
 
 import static io.restassured.RestAssured.given;
@@ -17,7 +16,7 @@ import static io.restassured.RestAssured.given;
  * Esse são os testes para classes Recursos.
  */
 @QuarkusTest
-public class RecursosClassesTester {
+public class EntrarRecursoTester {
 
     /**
      * Testa registrar usuario nao existente.
@@ -57,7 +56,7 @@ public class RecursosClassesTester {
                 .body(body)
                 .when().post("/entrar")
                 .then()
-                .statusCode(200);
+                .statusCode(Response.Status.ACCEPTED.getStatusCode());
     }
 
     /**

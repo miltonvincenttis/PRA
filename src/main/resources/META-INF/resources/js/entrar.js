@@ -109,6 +109,7 @@ function ligaDesligaMsgErro(temErroUsuarioInput, temErroSenhaInput) {
         msgErroSenha.style.visibility = 'hidden';
     }
 }
+
 //-----------------------------------------------------------------------------
 
 /**

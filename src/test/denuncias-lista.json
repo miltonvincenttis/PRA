@@ -1,28 +1,3 @@
- Isso é um array contendo objetos Denuncia e seus objetos agregados.
-
- A idéia é: toda vez que for necessário, enviar uma solicitação para recarregar o JSON da pagina principal.
- O processamento será dinamico via AJAX e não haverá reload da pagina.
-
- Como poderemos percorrer esse array?
- Na resposta atribuir o conteudo a um array chamado denuncias, que ficará disponivel 
- para ser processado na pagina principal.
-
- for(var i=0; i< array.length; i++){
-     //--- acessar cada uma das denuncias pelo i
-     var denuncia = array[i];
-
-     //--- acessar os objetos internos: dados da denuncia
-     var id = denuncia.id;
-     var datahora = denuncia.datahora;
-     var descricao = denuncia.descricao;
-     var pessoa = denuncia.pessoa
-
-    ..
-    ..
-    ..
- }
-
-=======================================================================================
 [
   {
     "id": "28e53548-5bf4-423b-bd4b-5ffc0793d242",
@@ -115,6 +90,3 @@
     "descricao": "A ciclo via do bairro foi totalmente destruida pelas obras que repararam um problema com tubulação.-----------------------------------------"
   }
 ]
-
-
-

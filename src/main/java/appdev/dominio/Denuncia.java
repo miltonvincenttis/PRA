@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.HashSet;
@@ -48,6 +49,83 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
 
     @Column(length = 140)
     private String descricao;
+
+
+    /**
+     *
+     * @param denunciaRequisicao
+     * @return true se incluiu, false se Denuncia ou TipoDeProblema não foi encontrado
+     */
+    @Transactional
+    public static boolean incluir(DenunciaRequisicao denunciaRequisicao){
+        boolean resultado = false;
+        Pessoa pessoa = Pessoa.findById(denunciaRequisicao.idPessoa);
+        TipoDeProblema tpd = TipoDeProblema.findById(denunciaRequisicao.idTipoDeProblema);
+
+        if(pessoa != null && tpd != null ){
+            resultado = true;
+            Denuncia denuncia = new Denuncia();
+            denuncia.setDescricao(denunciaRequisicao.descricao);
+            denuncia.setPessoa(pessoa);
+            denuncia.setTipoDeProblema(tpd);
+            denuncia.setDataHora(LocalDateTime.now());
+            denuncia.persist();
+        }
+
+        return resultado;
+    }
+
+    /**
+     * Campos possiveis de alteração:
+     * -descricao
+     * -idTipoDeProblema
+     *
+     * @param denunciaRequisicao
+     * @return true se alterou, false se Denuncia ou TipoDeProblema não foi encontrado
+     */
+    @Transactional
+    public static boolean alterar(DenunciaRequisicao denunciaRequisicao){
+        boolean resultado = false;
+
+        Denuncia denuncia = Denuncia.findById(denunciaRequisicao.id);
+        TipoDeProblema tdp = TipoDeProblema.findById(denunciaRequisicao.idTipoDeProblema);
+
+        if(denuncia != null && tdp != null){
+            resultado = true;
+            //--- se a descricao for diferente alteramos a datahora tambem
+            if(!denuncia.getDescricao().equalsIgnoreCase(denunciaRequisicao.descricao)){
+                denuncia.setDataHora(LocalDateTime.now());
+                denuncia.setDescricao(denunciaRequisicao.descricao);
+            }
+            //--- atualizamos a referencia ao id do TipoDeProblema
+            denuncia.setTipoDeProblema(tdp);
+            denuncia.persist();
+        }
+        return resultado;
+    }
+
+    /**
+     *
+     * @param denunciaRequisicao
+     * @return true se deletou false se não
+     */
+    @Transactional
+    public static boolean remover(DenunciaRequisicao denunciaRequisicao){
+        return Denuncia.deleteById(denunciaRequisicao.id);
+    }
+
+    /**
+     * Encontrar  Denuncia por id de Tipo de Problema.
+     *
+     * @param idTipoDeProblema
+     * @return Denuncia ou null se não encontrou
+     */
+    @Transactional
+    public static Denuncia encontrar(String idTipoDeProblema) {
+        TipoDeProblema tpd = TipoDeProblema.findById(idTipoDeProblema);
+
+        return Denuncia.find("tipoDeProblema", tpd).firstResult();
+    }
 
     public String getId() {
         return id;

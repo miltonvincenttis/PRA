@@ -283,6 +283,17 @@ public class DominioClassesTester {
         assertNull(solucaoQueFoiRemovida,"Solucao "+ solucaoQueFoiRemovida.getId()+ " não foi removida");
     }
 
+    /**
+     * Dado um objeto Pessoa, procurar por uma Denuncia que a tenha como criadora.
+     */
+    @Test
+    public void testaSeRecuperaDenunciaPorUmaPessoa(){
+        Pessoa pessoa = Pessoa.findById("367a2fa3-ab08-4f76-95bc-c7d9bd684493");
+        assertNotNull(pessoa,"Pessoa 367a2fa3-ab08-4f76-95bc-c7d9bd684493 não foi encontrada");
+
+        Denuncia denuncia = Denuncia.find("pessoa", pessoa ).firstResult();
+        assertNotNull(denuncia, "Denuncia não foi encontrada para a Pessoa 367a2fa3-ab08-4f76-95bc-c7d9bd684493");
+    }
 
 }
 

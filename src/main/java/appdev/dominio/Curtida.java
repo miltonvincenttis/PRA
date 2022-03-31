@@ -4,6 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.Serializable;
 
 /**
@@ -20,11 +21,34 @@ public class Curtida extends PanacheEntityBase implements Serializable {
 
     @OneToOne
     @JoinColumn(name = "denuncias_fk")
-    private Denuncia denuncia;
+    private Denuncia curtida;
 
     @OneToOne
     @JoinColumn(name = "pessoas_fk")
     private Pessoa pessoa;
+
+    @Transactional
+    public static boolean curtir(CurtidaRequisicao curtidaRequisicao) {
+        boolean resultado = false;
+
+        Denuncia denuncia = Denuncia.findById(curtidaRequisicao.idDenuncia);
+        Pessoa pessoa = Pessoa.findById(curtidaRequisicao.idPessoa);
+
+        //--- verificamos se achamos a Denuncia e a Pessoa
+        if(denuncia != null && pessoa != null){
+            resultado = true;
+            Curtida curtida = new Curtida();
+            curtida.setDenuncia(denuncia);
+            curtida.setPessoa(pessoa);
+            curtida.persist();
+        }
+        return resultado;
+    }
+
+    @Transactional
+    public static boolean descurtir(CurtidaRequisicao curtidaRequisicao) {
+        return Curtida.deleteById(curtidaRequisicao.id);
+    }
 
     public String getId() {
         return id;
@@ -35,11 +59,11 @@ public class Curtida extends PanacheEntityBase implements Serializable {
     }
 
     public Denuncia getDenuncia() {
-        return denuncia;
+        return curtida;
     }
 
     public void setDenuncia(Denuncia denuncia) {
-        this.denuncia = denuncia;
+        this.curtida = denuncia;
     }
 
     public Pessoa getPessoa() {
