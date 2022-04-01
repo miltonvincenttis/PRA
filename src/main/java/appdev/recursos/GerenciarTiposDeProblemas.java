@@ -5,6 +5,7 @@ import appdev.dominio.TipoDeProblema;
 import appdev.dominio.TipoDeProblemaRequisicao;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -35,6 +36,8 @@ public class GerenciarTiposDeProblemas {
      * @return 200, 400
      */
     @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response incluir(TipoDeProblemaRequisicao tipoDeProblemaRequisicao){
         //--- verificamos se veio descricao se não BAD REQUEST
         if( tipoDeProblemaRequisicao.descricao == null || tipoDeProblemaRequisicao.descricao.length() == 0){
@@ -53,6 +56,8 @@ public class GerenciarTiposDeProblemas {
      * @return 400, 403, 200, 400
      */
     @DELETE
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response remover(TipoDeProblemaRequisicao tipoDeProblemaRequisicao){
         //--- verificamos se veio o id, se não BAD REQUEST
         if(tipoDeProblemaRequisicao.id == null || tipoDeProblemaRequisicao.id.length() == 0){
@@ -79,6 +84,8 @@ public class GerenciarTiposDeProblemas {
      * @return
      */
     @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response alterar(TipoDeProblemaRequisicao tipoDeProblemaRequisicao){
         //--- verificamos se veio descricao se não BAD REQUEST
         if( tipoDeProblemaRequisicao.descricao == null || tipoDeProblemaRequisicao.descricao.length() == 0 ||
@@ -100,6 +107,8 @@ public class GerenciarTiposDeProblemas {
      * @return json
      */
     @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
     public Response listarTodos(){
         List<TipoDeProblema> tdps = TipoDeProblema.listAll();
 
