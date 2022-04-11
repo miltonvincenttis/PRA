@@ -29,10 +29,16 @@ import javax.ws.rs.core.Response;
  * 403: forbidden: encontrou Comentario ou Solucao
  * 404: not found: não encontrou a Denuncia
  *
- * TODO: Testar no insomnia.
+ *
  */
 @Path("/comentarios")
 public class GerenciarComentariosRecurso {
+    /**
+     * Ok: Testado no insomnia.
+     *
+     * @param comentarioRequisicao
+     * @return Response
+     */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -52,6 +58,11 @@ public class GerenciarComentariosRecurso {
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 
+    /**
+     * Ok: Testado no insomnia.
+     * @param comentarioRequisicao
+     * @return Response
+     */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -70,6 +81,12 @@ public class GerenciarComentariosRecurso {
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 
+    /**
+     * Ok: Testado no insomnia.
+     *
+     * @param comentarioRequisicao
+     * @return Response
+     */
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)

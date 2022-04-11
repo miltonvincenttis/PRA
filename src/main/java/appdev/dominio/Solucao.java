@@ -132,27 +132,4 @@ public class Solucao extends PanacheEntityBase implements Serializable {
         this.denuncia = denuncia;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("dataHora", dataHora)
-                .append("descricao", descricao)
-                .append("pessoa", pessoa)
-                .append("denuncia", denuncia)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Solucao solucao = (Solucao) o;
-        return Objects.equals(id, solucao.id) && Objects.equals(dataHora, solucao.dataHora) && Objects.equals(descricao, solucao.descricao) && Objects.equals(pessoa, solucao.pessoa) && Objects.equals(denuncia, solucao.denuncia);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, dataHora, descricao, pessoa, denuncia);
-    }
 }

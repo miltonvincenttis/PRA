@@ -1,8 +1,6 @@
 package appdev.recursos;
 
 import appdev.dominio.*;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -27,13 +25,14 @@ import java.util.List;
  * Lista todas
  * GET: /pessoas
  *
- * TODO: Testar no isomnia
  */
 
 @Path("/pessoas")
 public class GerenciarPessoasRecurso {
     /**
-     * Se alteracao não ok: 204
+     * Ok: Testado no insomnia.
+     *
+     * Campos permitido alterar: nome, admin
      *
      * @param pessoaRequisicao
      * @return 200 | 400 | 404
@@ -48,13 +47,15 @@ public class GerenciarPessoasRecurso {
         }
 
         if(Pessoa.alterar(pessoaRequisicao)){
-            return Response.accepted().build();
+            return Response.status(Response.Status.OK).build();
         }
         //--- não encontrou o id no banco de dados
         return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     /**
+     * Ok: Testado no insomnia.
+     *
      * Condição pra remover: não ter nenhuma Denuncia, Comentario ou Solucao.
      *
      * @param pessoaRequisicao
@@ -72,12 +73,14 @@ public class GerenciarPessoasRecurso {
         //---verificamos que tem condições de ser excluido
         if(naoTemDenunciaComentarioSolucao(pessoaRequisicao)){
             //--- excluimos
-            if(Pessoa.deleteById(pessoaRequisicao.id)){
+            if(Pessoa.remover(pessoaRequisicao)){
                 return Response.status(Response.Status.OK).build();
             }
+        }else{
+            return Response.status(Response.Status.FORBIDDEN).build();
         }
-        //--- se não FORBIDDEN
-        return Response.status(Response.Status.FORBIDDEN).build();
+        //--- aqui foi pq não conseguiu remover pq a Pessoa não foi encontrada.
+        return Response.status(Response.Status.NOT_FOUND).build();
     }
 
     /**

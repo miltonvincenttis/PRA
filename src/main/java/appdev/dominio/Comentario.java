@@ -137,27 +137,4 @@ public class Comentario extends PanacheEntityBase implements Serializable {
         this.denuncia = denuncia;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("dataHora", dataHora)
-                .append("descricao", descricao)
-                .append("pessoa", pessoa)
-                .append("denuncia", denuncia)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Comentario that = (Comentario) o;
-        return Objects.equals(id, that.id) && Objects.equals(dataHora, that.dataHora) && Objects.equals(descricao, that.descricao) && Objects.equals(pessoa, that.pessoa) && Objects.equals(denuncia, that.denuncia);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, dataHora, descricao, pessoa, denuncia);
-    }
-}
+ }

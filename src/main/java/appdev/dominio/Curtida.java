@@ -2,13 +2,11 @@ package appdev.dominio;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Essa classe representa uma Curtida. Padrão Active Record.
@@ -34,7 +32,7 @@ public class Curtida extends PanacheEntityBase implements Serializable {
     private Pessoa pessoa;
 
     @Transactional
-    public static boolean curtir(CurtidaRequisicao curtidaRequisicao) {
+    public static Denuncia curtir(CurtidaRequisicao curtidaRequisicao) {
         boolean resultado = false;
 
         Denuncia denuncia = Denuncia.findById(curtidaRequisicao.idDenuncia);
@@ -43,17 +41,21 @@ public class Curtida extends PanacheEntityBase implements Serializable {
         //--- verificamos se achamos a Denuncia e a Pessoa
         if(denuncia != null && pessoa != null){
             resultado = true;
-            Curtida curtida = new Curtida();
-            curtida.setDenuncia(denuncia);
-            curtida.setPessoa(pessoa);
-            curtida.persist();
+
+            denuncia.addCurtida(denuncia, pessoa);
         }
-        return resultado;
+        return denuncia;
     }
 
     @Transactional
-    public static boolean descurtir(CurtidaRequisicao curtidaRequisicao) {
-        return Curtida.deleteById(curtidaRequisicao.id);
+    public static Denuncia descurtir(CurtidaRequisicao curtidaRequisicao) {
+        Curtida curtida = Curtida.findById(curtidaRequisicao.id);
+        Denuncia denuncia = Denuncia.findById(curtidaRequisicao.idDenuncia);
+        denuncia.removeCurtida(curtida);
+        denuncia.persist();
+
+        return denuncia;
+
     }
 
     @Transactional
@@ -84,27 +86,5 @@ public class Curtida extends PanacheEntityBase implements Serializable {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("denuncia", denuncia)
-                .append("pessoa", pessoa)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Curtida curtida = (Curtida) o;
-        return Objects.equals(id, curtida.id) && Objects.equals(denuncia, curtida.denuncia) && Objects.equals(pessoa, curtida.pessoa);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, denuncia, pessoa);
     }
 }

@@ -1,6 +1,7 @@
 package appdev.recursos;
 
 import appdev.dominio.*;
+import io.quarkus.panache.common.Sort;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -43,7 +44,7 @@ import java.util.List;
  * DELETE: /denuncias/curtidas
  * 200: ok
  * 400: bad request: não veio id: da Curtida
- * 404: not found: não encontrou a Curtida
+ * 404: not found: não encontrou a Curtida ou a Denuncia
  */
 @Path("/denuncias")
 public class GerenciarDenunciasRecurso {
@@ -141,7 +142,8 @@ public class GerenciarDenunciasRecurso {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarTodas(){
-        List<Denuncia> denuncias = Denuncia.listAll();
+        Sort sort = Sort.descending("datahora");
+        List<Denuncia> denuncias = Denuncia.listAll(sort);
 
         return Response.ok(denuncias).build();
     }
@@ -181,8 +183,9 @@ public class GerenciarDenunciasRecurso {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        if(Curtida.curtir(curtidaRequisicao)){
-            return Response.status(Response.Status.OK).build();
+        denuncia = Curtida.curtir(curtidaRequisicao);
+        if(denuncia != null){
+            return Response.ok(denuncia).build();
         }
 
         return Response.status(Response.Status.NOT_FOUND).build();
@@ -203,12 +206,14 @@ public class GerenciarDenunciasRecurso {
     @Produces(MediaType.APPLICATION_JSON)
     public Response descurtir(CurtidaRequisicao curtidaRequisicao){
         //--- verifica se veio idCurtida
-        if(curtidaRequisicao.id == null || curtidaRequisicao.id.length() == 0){
+        if(curtidaRequisicao.id == null || curtidaRequisicao.id.length() == 0 ||
+           curtidaRequisicao.idDenuncia == null || curtidaRequisicao.idDenuncia.length() == 0){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
-        if(Curtida.descurtir(curtidaRequisicao)){
-            return Response.status(Response.Status.OK).build();
+        Denuncia denuncia = Curtida.descurtir(curtidaRequisicao);
+        if(denuncia != null){
+            return Response.ok(denuncia).build();
         }
 
         return Response.status(Response.Status.NOT_FOUND).build();

@@ -7,6 +7,7 @@
 /*--- TELA index.html ---*/
 .nome-app{
     font-weight: 700;
+    font-size: x-large;
 }
 .centralizado {
     margin: 0;
@@ -25,3 +26,62 @@
 #usuarioLogado {
     margin-right: 40px;
 }
+
+/*--- isso faz o layout da denuncia */
+.container .badgeDenuncia{
+    margin: 0px;
+    padding: 0px;
+    background: #ff8080;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-left: 10px;
+  }
+
+  /*--- isso faz o layout do comentario */
+.container .badgeComentario{
+    margin: 0px;
+    padding: 0px;
+    background: #ff9955;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-left: 10px;
+  }
+
+    /*--- isso faz o layout da solução */
+.container .badgeSolucao{
+    margin: 0px;
+    padding: 0px;
+    background: #aad400;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-left: 10px;
+  }
+
+  div .card-body{
+    margin: 5px;
+    padding: 5px; 
+  }
+
+  #denuncia{
+    background-color: #e6e6e6;
+  }
+
+  #comentario{
+    background-color: #ffffff;
+  }
+
+  #solucao{
+    background-color: #cccccc;
+  }

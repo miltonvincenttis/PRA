@@ -130,26 +130,4 @@ public class Pessoa extends PanacheEntityBase implements Serializable {
         this.senha = senha;
     }
 
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this)
-                .append("id", id)
-                .append("nome", nome)
-                .append("admin", admin)
-                .append("senha", senha)
-                .toString();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Pessoa pessoa = (Pessoa) o;
-        return admin == pessoa.admin && Objects.equals(id, pessoa.id) && Objects.equals(nome, pessoa.nome) && Objects.equals(senha, pessoa.senha);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, nome, admin, senha);
-    }
 }
