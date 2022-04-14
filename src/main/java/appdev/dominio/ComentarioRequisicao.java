@@ -11,13 +11,13 @@ import java.time.LocalDateTime;
  *  PUT    http://localhost:8080/comentarios   (alterar)
  *  DELETE http://localhost:8080/comentarios   (remover)
  *
- *  JSON: consultar o arquivo: src/test/comentario-requisicao.json
+ *  JSON: consultar o arquivo: src/test/localhostrequisicao.json
  *
  */
 public class ComentarioRequisicao {
     public String id;
     public String descricao;
-    public LocalDateTime datahora;
+    public String dataHora;
     public String idPessoa;
     public String idDenuncia;
 }

@@ -1,5 +1,6 @@
 package appdev.dominio;
 
+import appdev.Utils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -51,12 +52,12 @@ public class Comentario extends PanacheEntityBase implements Serializable {
         Denuncia denuncia = Denuncia.findById(comentarioRequisicao.idDenuncia);
         Pessoa pessoa = Pessoa.findById(comentarioRequisicao.idPessoa);
 
-        Comentario comentario = new Comentario();
         if(denuncia != null && pessoa != null){
+            Comentario comentario = new Comentario();
             comentario.setDenuncia(denuncia);
             comentario.setPessoa(pessoa);
             comentario.setDescricao(comentarioRequisicao.descricao);
-            comentario.setDataHora(LocalDateTime.now());
+            comentario.setDataHora(Utils.convertePraLocalDateTime(comentarioRequisicao.dataHora));
             comentario.persist();
 
             resultado = true;

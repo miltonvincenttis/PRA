@@ -233,21 +233,21 @@ function ligarPainelDenuncias(){
         <div class="card" id="denuncia">
             <div class="row">
                 <div class="col-auto my-auto">
-                    <div id="denunciaPessoaNome" idPessoa="${denuncia.pessoa.id}" class="badgeDenuncia text-center" title="Denúncia por">${denuncia.pessoa.nome}</div>
+                    <div id="denunciaPessoaNome" idPessoa="${denuncia.pessoa.id}" class="badgeDenuncia text-center" title="Denúncia por ${denuncia.pessoa.nome}">${reduzirNomeUsuario(denuncia.pessoa.nome)}</div>
                 </div>
                 <div class="col">
                     <div class="card-body">
                         <h5 id="denunciaTPD" class="card-title">${denuncia.tipoDeProblema.descricao}</h5>
                         <h6 id="denunciaDatahora" class="card-subtitle mb-2 text-muted">${obterData(denuncia.dataHora)} - ${obterHora(denuncia.dataHora)}</h6>
                         <p id="denunciaDescricao" class="card-text">${denuncia.descricao}</p>
-                        <i title="comentário" idDenuncia="${denuncia.id}" class="far fa-sticky-note fa-lg" onclick="comentario(event);"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <i title="solução"    idDenuncia="${denuncia.id}" class="far fa-edit fa-lg" onclick="solucao(event);"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i title="comentário" idDenuncia="${denuncia.id}" class="far fa-sticky-note fa-lg" onclick="abrirDialogoIncluirComentario(event);"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i title="solução"    idDenuncia="${denuncia.id}" class="far fa-edit fa-lg" onclick="abrirDialogoIncluirSolucao(event);"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span id="botaoCurtir-${denuncia.id}">
                             ${produzirHTMLIconeCurtir(denuncia)}
                         </span>
-                        <i title="editar"   idDenuncia="${denuncia.id}" class="fa fa-user-edit fa-lg"  onclick="editarDenuncia(event);"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <i title="remover"  idDenuncia="${denuncia.id}" class="far fa-trash-can fa-lg" onclick="removerDenuncia(event); disabled='disabled'"></i>
+                        <i title="editar"   idDenuncia="${denuncia.id}" class="fa fa-user-edit fa-lg"  onclick="abrirDialogoEditarDenuncia(event);"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i title="remover"  idDenuncia="${denuncia.id}" class="far fa-trash-can fa-lg" onclick="abrirDialogoRemoverDenuncia(event); disabled='disabled'"></i>
                     </div>
                 </div>
             </div>
@@ -266,6 +266,53 @@ function ligarPainelDenuncias(){
 
 //-----------------------------------------------------------------------------
 
+function reduzirNomeUsuario(nome){
+    let nomeAbrevidado = '';
+    let nomes = nome.split(' ');
+    const tamanhoMaximo = 12;
+
+    let tamanhoMaximoNomeIndividual = tamanhoMaximo;
+
+    loopDeNovo:
+    for (let i=0; i< nomes.length; i++) {
+        if(nomes[i].length > tamanhoMaximoNomeIndividual){
+            nomeAbrevidado += nomes[i].substring(0,1).toUpperCase()
+        }else{
+            nomeAbrevidado += nomes[i]
+        }
+        if(i != nomes.length-1){
+            nomeAbrevidado += ' '
+        }
+        //--- caso o nome final seja maior que tamanhoMaximoNomeIndividual, a gente faz tudo de novo
+        if(i == nomes.length-1 && temNomeMaior(tamanhoMaximo, nomeAbrevidado.split(' '))) {
+            //--- refaz o array novamente agora com o nome finalizado inteiro
+            nomes = nomeAbrevidado.split(' ');
+
+            //--- dividimos o tamanho maximo do nome pra metade
+            tamanhoMaximoNomeIndividual = tamanhoMaximoNomeIndividual/2;
+            i=-1;
+            nomeAbrevidado = '';
+
+            continue loopDeNovo;
+        }
+    }
+    return nomeAbrevidado;    
+
+}
+
+function temNomeMaior(tamanhoMaximo, nomes){
+    let resultado = false;
+
+    for (umNome in nomes) {
+        if(umNome.length > tamanhoMaximo){
+            resultado = true;
+            break;
+        }
+    }
+    return resultado;
+}
+//-----------------------------------------------------------------------------
+
 /**
  * Gera HTML para Comentarios.
  * 
@@ -279,8 +326,8 @@ function produzirHTMLComentarios(comentarios){
         comentariosHTML += `
         <div class="card" id="comentario" idDenuncia="${comentarios[i].id}">
             <div class="row">
-                <div class="col-auto my-auto">
-                    <div id="comentarioPessoaNome" idPessoa="${comentarios[i].pessoa.id}" class="badgeComentario text-center" title="Comentário por">${comentarios[i].pessoa.nome}</div>
+                <div class="col-auto my-auto">                                                                                                      
+                    <div id="comentarioPessoaNome" idPessoa="${comentarios[i].pessoa.id}" class="badgeComentario text-center" title="Comentário por ${comentarios[i].pessoa.nome}">${reduzirNomeUsuario(comentarios[i].pessoa.nome)}</div>
                 </div>
                 <div class="col">
                     <div class="card-body">
@@ -290,8 +337,8 @@ function produzirHTMLComentarios(comentarios){
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <i title="editar" class="fa fa-user-edit fa-lg" onclick="editarComentario(this)"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <i title="remover" class="far fa-trash-can fa-lg" onclick="removerComentario(this)"></i>
+                        <i title="editar" class="fa fa-user-edit fa-lg" onclick="abrirDialogoEditarComentario(event)"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i title="remover" class="far fa-trash-can fa-lg" onclick="abrirDialogoRemoverComentario(event)"></i>
                     </div>
                 </div>
             </div>
@@ -317,8 +364,8 @@ function produzirHTMLSolucoes(solucoes){
         solucoesHTML += `
         <div class="card" id="solucao" idDenuncia="${solucoes[i].id}">
             <div class="row">
-                <div class="col-auto my-auto text-center" >
-                    <div id="solucaoPessoaNome" idPessoa="${solucoes[i].pessoa.id}" class="badgeSolucao text-center" title="Solução por">${solucoes[i].pessoa.nome}</div>
+                <div class="col-auto my-auto text-center" >                                                                             
+                    <div id="solucaoPessoaNome" idPessoa="${solucoes[i].pessoa.id}" class="badgeSolucao text-center" title="Solução por ${solucoes[i].pessoa.nome}">${reduzirNomeUsuario(solucoes[i].pessoa.nome)}</div>
                 </div>
                 <div class="col">
                     <div class="card-body">
@@ -328,8 +375,8 @@ function produzirHTMLSolucoes(solucoes){
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <i title="editar" class="fa fa-user-edit fa-lg" onclick="editarSolucao(this)"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <i title="remover" class="far fa-trash-can fa-lg" onclick="removerSolucao(this)"></i>
+                        <i title="editar" class="fa fa-user-edit fa-lg" onclick="abrirDialogoEditarSolucao(event)"></i> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <i title="remover" class="far fa-trash-can fa-lg" onclick="abrirDialogoRemoverSolucao(event)"></i>
                     </div>
                 </div>
             </div>
@@ -538,9 +585,11 @@ function produzirHTMLSelectTiposDeProblemas(tiposDeProblemas){
  *    "idPessoa": "String",
  *    "idTipoDeProblema": "String"
  *  }
+ *  
+ * botao Ok onclick(event)
  * 
  */
-function criarDenuncia(event){
+function incluirDenuncia(event){
 
    //--- pega o select 
    let selectTiposDeProblemas = document.getElementById('selectIncluirTiposDeProblemas');   
@@ -549,20 +598,52 @@ function criarDenuncia(event){
    let idTipoDeProblema = selectTiposDeProblemas.value;
 
    //--- pega a descricao
-   let descricaoTipoDeProblemas = document.getElementById('incluirDenunciaDescricao').value
+   let descricaoDenuncia = document.getElementById('incluirDenunciaDescricao').value
+
+   //--- valida set escolheu um Tipo de Problema
+   if(!idTipoDeProblema){
+      ligarMsgErro('msgErroTipoDeProblemaDenuncia')
+   }else{
+      desligarMsgErro('msgErroTipoDeProblemaDenuncia')
+   }
+   
+   //--- valida se descricao foi preenchido
+   if(!descricaoDenuncia){
+       ligarMsgErro('msgErroDescricaoDenuncia');
+   }else{
+      desligarMsgErro('msgErroDescricaoDenuncia');
+   }
+   //--- se qualquer erro
+   if(!descricaoDenuncia || !idTipoDeProblema)
+      return false;
+   
+   //--- fechar o dialogo manualmente
+   $('#dialogoIncluirDenuncia').modal('hide')
 
    let idPessoa = Cookies.get('appToken');
 
    //--- vamos gerar um JSON 
-   let json = JSON.stringify({"descricao":descricaoTipoDeProblemas,"dataHora":new Date().toISOString(),"idPessoa":idPessoa,"idTipoDeProblema":idTipoDeProblema});
+   let json = JSON.stringify({"descricao":descricaoDenuncia,"dataHora":new Date().toISOString(),"idPessoa":idPessoa,"idTipoDeProblema":idTipoDeProblema});
 
    tester(json)
    
    if(incluirDenunciaBackend(json)){
-      alert('Sua Denúncia foi criada com sucesso!')
+      alert('Sua Denúncia foi incluida com sucesso!')
       carregarDenuncias();
    }
 
+}
+
+//-----------------------------------------------------------------------------
+
+function ligarMsgErro(id){
+    document.getElementById(id).style.visibility = 'visible'
+}
+
+//-----------------------------------------------------------------------------
+
+function desligarMsgErro(id){
+    document.getElementById(id).style.visibility = 'hidden'
 }
 
 //-----------------------------------------------------------------------------
@@ -571,7 +652,7 @@ function criarDenuncia(event){
  * Incluir Denuncia.
  * 
  * JSON: nenhum
- * request: GET /tiposdeproblemas
+ * request: POST /denuncias
  */
  function incluirDenunciaBackend(json) {
    let resultado = false;
@@ -654,9 +735,9 @@ function curtir(event){
  * 
  * JSON resposta: ver denuncias-lista.json no backend.
  * 
- * Nota: 
- * -resultadoOK vai ter o conteudo de resultado.
- * -jsonResposta vai ter o conteudo da denuncia.    
+ * Nota: chamado por curtir para curtir/descurtir, dependendo do conteudo de argumento.
+ * 
+ * 
  */
  function curtirBackend(argumento, metodoHTTP) {
     let jsonRequisicao = argumento.jsonRequisicao
@@ -708,7 +789,7 @@ function editarDenuncia(denuncia){
 /**
  * Somente o criador da Denuncia pode remover.
  */
-function removerDenuncia(denuncia){
+function removerDenuncia(event){
     //--- passamos o Id da Pessoa que criou a Denuncia como argumento.   
     if(!temPermissao(PERMISSAO.removerDenuncia, denuncia.pessoa.id)){
         alert('Só a Pessoa que criou a Denúncia pode remove-la.')
@@ -725,11 +806,114 @@ function removerDenuncia(denuncia){
 //-----------------------------------------------------------------------------
 
 /**
- * Cria Comentario: qualquer um pode comentar.
+ * Essa funcão é disparada no ícone 'comentarios' de uma denuncia.
  */
- function comentario(denuncia){
-   alert('Criar Comentario')
+ function abrirDialogoIncluirComentario(onClickEventAbrirDialogoIncluirComentario){
+    //--- pegamos o idDenuncia que vem no ícone
+    let botaoOkIncluirComentario = onClickEventAbrirDialogoIncluirComentario.target
+    let idDenuncia = botaoOkIncluirComentario.getAttribute('iddenuncia');
+
+    //--- registramos um manipulador de evento pro modal a abrir.
+    //--- queremos registrar o idDenunca no botão de ok do dialogo.
+    $('#dialogoIncluirComentario').on('show.bs.modal', injetarDenunciaIDBotaoOk(event, idDenuncia));
+
+    //--- abrimos o dialogo e esperamos sair
+    $('#dialogoIncluirComentario').modal('show');
+ 
+ }
+
+//-----------------------------------------------------------------------------
+
+function injetarDenunciaIDBotaoOk(event, idDenuncia){
+    /*
+     --- agora estamos dentro do dialogo 'dialogoIncluirComentario'
+     --- procuramos pelo botão Ok e inseriamos um atributo iddenuncia
+    */
+    document.getElementById('botaoOkIncluirComentario').setAttribute('iddenuncia', idDenuncia)
 }
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Incluir Comentário enviando os dados do Dialogo pro backend em formato JSON: 
+ * -ver o arquivo comentario-requisicao.json no backend.
+ * 
+ * {
+ *    "descricao": "String",
+ *    "dataHora": "LocalDateTime",
+ *    "idPessoa": "String"
+ *    "idDenuncia": String
+ *  }
+ * 
+ */
+ function incluirComentario(event){
+    //--- pegamos o atributo idDenuncia contido no objeto que disparou o evento
+    let botaoOk = event.target
+    let idDenuncia = botaoOk.getAttribute('iddenuncia')
+
+    //--- pega a descricao
+    let descricaoComentario = document.getElementById('incluirComentarioDescricao').value
+ 
+    //--- limpa o campo para não vir sujo na proxima entrada
+    document.getElementById('incluirComentarioDescricao').value = ''
+
+    //--- validar a descricao
+    if(!descricaoComentario){
+        ligarMsgErro('msgErroComentarioDescricao')
+        return false;
+    }else{
+        desligarMsgErro('msgErroComentarioDescricao')
+    }
+
+    $('#dialogoIncluirComentario').modal('hide')
+
+    let idPessoa = Cookies.get('appToken');
+ 
+    //--- vamos gerar um JSON 
+    let json = JSON.stringify({"descricao":descricaoComentario,"dataHora":new Date().toISOString(),"idPessoa":idPessoa, "idDenuncia": idDenuncia});
+ 
+    tester(json)
+    
+    if(incluirComentarioBackend(json)){
+       alert('Seu Comentário foi incluido com sucesso!')
+       carregarDenuncias();
+    }
+  }
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Incluir Comentario.
+ * 
+ * JSON: nenhum
+ * request: POST /comentarios
+ */
+ function incluirComentarioBackend(json) {
+    let resultado = false;
+    let async = false;
+    let xhr = new XMLHttpRequest();
+    let url = "http://localhost/comentarios";
+ 
+    xhr.open("POST", url, async);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+           switch(xhr.status){
+             case 201: /** ok **/           
+                 resultado = true;
+                 break;
+             case 400: /** bad request:  id de Pessoa ou id de Tipo de Problema não foram  **/
+             case 404: /** not found:    id de Pessoa ou id de Tipo de Problema não foram não existem  **/    
+             case 500:
+                 alert('Erro de servidor: '+this.statusText)
+                 resultado = false;
+                 break;
+           }
+        }
+    };
+    xhr.send(json);
+    return resultado;
+ }
 
 //-----------------------------------------------------------------------------
 
@@ -758,17 +942,112 @@ function removerComentario(comentario){
 //-----------------------------------------------------------------------------
 
 /**
- * Cria Solucao: Só usuário Admin pode.
- * 
- * @param  denuncia 
+ * Essa funcão é disparada no ícone 'solução' de uma denuncia.
  */
- function solucao(denuncia){
-   if(!temPermissao(PERMISSAO.criarSolucao)){
-       alert('Somente usuário Admin pode Incluir Solução.')
-   }
-}
+ function abrirDialogoIncluirSolucao(onClickEventAbrirDialogoIncluirSolucao){
+    //--- pegamos o idDenuncia que vem no ícone
+    let botaoOkIncluirSolucao = onClickEventAbrirDialogoIncluirSolucao.target
+    let idDenuncia = botaoOkIncluirSolucao.getAttribute('iddenuncia');
+
+    //--- registramos um manipulador de evento pro modal a abrir.
+    //--- queremos registrar o idDenunca no botão de ok do dialogo.
+    $('#dialogoIncluirSolucao').on('show.bs.modal', injetarDenunciaIDBotaoOk(event, idDenuncia));
+
+    //--- abrimos o dialogo e esperamos sair
+    $('#dialogoIncluirSolucao').modal('show');
+ 
+ }
 
 //-----------------------------------------------------------------------------
+
+/**
+ * Incluir Solução enviando os dados do Dialogo pro backend em formato JSON: 
+ * -ver o arquivo solucao-requisicao.json no backend.
+ * 
+ * {
+ *    "descricao": "String",
+ *    "dataHora": "String",
+ *    "idPessoa": "String"
+ *    "idDenuncia": String
+ *  }
+ * 
+ */
+ function incluirSolucao(event){
+    //--- verificamos se tem permissão
+    if(!temPermissao(PERMISSAO.criarSolucao)){
+        alert('Somente usuário Admin pode Incluir Solução.')
+        return false;
+    }     
+
+    //--- pegamos o atributo idDenuncia contido no objeto que disparou o evento
+    let botaoOk = event.target
+    let idDenuncia = botaoOk.getAttribute('iddenuncia')
+
+    //--- pega a descricao
+    let descricaoComentario = document.getElementById('incluirSolucaoDescricao').value
+ 
+    //--- limpa o campo para não vir sujo na proxima entrada
+    document.getElementById('incluirSolucaoDescricao').value = ''
+
+    //--- validar a descricao
+    if(!descricaoComentario){
+        ligarMsgErro('msgErroSolucaoDescricao')
+        return false;
+    }else{
+        desligarMsgErro('msgErroSolucaoDescricao')
+    }
+
+    $('#dialogoIncluirSolucao').modal('hide')
+
+    let idPessoa = Cookies.get('appToken');
+ 
+    //--- vamos gerar um JSON 
+    let json = JSON.stringify({"descricao":descricaoComentario,"dataHora":new Date().toISOString(),"idPessoa":idPessoa, "idDenuncia": idDenuncia});
+ 
+    tester(json)
+    
+    if(incluirSolucaoBackend(json)){
+       alert('Sua Solução foi incluido com sucesso!')
+       carregarDenuncias();
+    }
+  }
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Incluir Solucao.
+ * 
+ * JSON: nenhum
+ * request: POST /solucoes
+ */
+ function incluirComentarioBackend(json) {
+    let resultado = false;
+    let async = false;
+    let xhr = new XMLHttpRequest();
+    let url = "http://localhost/solucoes";
+ 
+    xhr.open("POST", url, async);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+           switch(xhr.status){
+             case 201: /** ok **/           
+                 resultado = true;
+                 break;
+             case 400: /** bad request:  id de Pessoa ou id de Tipo de Problema não foram  **/
+             case 404: /** not found:    id de Pessoa ou id de Tipo de Problema não foram não existem  **/    
+             case 500:
+                 alert('Erro de servidor: '+this.statusText)
+                 resultado = false;
+                 break;
+           }
+        }
+    };
+    xhr.send(json);
+    return resultado;
+ }
+
+//----------------------------------------------------------------------------- 
 
 /**
  * Somente o criador da Solucao pode editar, e deve ser Admin (ser ou não ser Admin é alteravel)
@@ -872,11 +1151,11 @@ function temPermissao(permissao, idCriador){
         case PERMISSAO.criarDenuncia:    
         case PERMISSAO.criarComentario:
         case PERMISSAO.curtirDenuncia:
-            alert('Qualquer um pode')
+            //alert('Qualquer um pode')
             temPermissao = true;
             break;
         case PERMISSAO.criarSolucao:
-            alert('Só Admin pode')
+            //alert('Só Admin pode')
             temPermissao = verificarPermissaoSomenteAdminPode()
             break;
         case PERMISSAO.editarSolucao:    

@@ -6,7 +6,7 @@ package appdev.dominio;
  * {
  *   "id": null,
  *   "descricao": "String",
- *   "datahora": "String",
+ *   "dataHora": "String",
  *   "idPessoa": "String",
  *   "idTipoDeProblema": "String"
  * }

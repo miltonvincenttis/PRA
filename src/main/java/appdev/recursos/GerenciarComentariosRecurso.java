@@ -12,15 +12,15 @@ import javax.ws.rs.core.Response;
  *
  * Incluir
  * POST: /comentarios
- * 200: ok
+ * 201: included
  * 400: bad request: descricao não veio ou está vazio
- * 404: not found: não encontrou ou Pessoa ou TipoDeProblema
+ * 404: not found: não encontrou ou Pessoa ou Denuncia
  *
  * Alterar
  * PUT: /comentarios
  * 200: ok
  * 400: bad request: id ou descricao não veio ou está vazio
- * 404: not found : não encontrou a Denuncia ou o TipoDeProblema
+ * 404: not found : não encontrou a Denuncia ou Denuncia
  *
  * Remover
  * DELETE: /comentarios
@@ -52,7 +52,7 @@ public class GerenciarComentariosRecurso {
         }
 
         if(Comentario.incluir(comentarioRequisicao)){
-            return Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.CREATED).build();
         }
 
         return Response.status(Response.Status.NOT_FOUND).build();

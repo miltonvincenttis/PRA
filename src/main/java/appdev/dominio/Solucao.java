@@ -1,5 +1,6 @@
 package appdev.dominio;
 
+import appdev.Utils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -46,12 +47,12 @@ public class Solucao extends PanacheEntityBase implements Serializable {
         Denuncia denuncia = Denuncia.findById(solucaoRequisicao.idDenuncia);
         Pessoa pessoa = Pessoa.findById(solucaoRequisicao.idPessoa);
 
-        Comentario solucao = new Comentario();
         if(denuncia != null && pessoa != null){
+            Solucao solucao = new Solucao();
             solucao.setDenuncia(denuncia);
             solucao.setPessoa(pessoa);
             solucao.setDescricao(solucaoRequisicao.descricao);
-            solucao.setDataHora(LocalDateTime.now());
+            solucao.setDataHora(Utils.convertePraLocalDateTime(solucaoRequisicao.dataHora));
             solucao.persist();
 
             resultado = true;
@@ -74,7 +75,7 @@ public class Solucao extends PanacheEntityBase implements Serializable {
             //--- se descricao é diferente do gravado, alterar descricao e datahora
             if(!solucao.getDescricao().equalsIgnoreCase(solucaoRequisicao.descricao)){
                 solucao.setDescricao(solucaoRequisicao.descricao);
-                solucao.setDataHora(LocalDateTime.now());
+                solucao.setDataHora(Utils.convertePraLocalDateTime(solucaoRequisicao.dataHora));
                 solucao.persist();
             }
             resultado = true;

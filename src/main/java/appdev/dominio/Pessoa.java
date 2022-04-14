@@ -106,6 +106,11 @@ public class Pessoa extends PanacheEntityBase implements Serializable {
         this.id = id;
     }
 
+    /**
+     * O limite de nome separado por espaço é 12.
+     * Portanto vamos Abreviar todo nome que for > 12;
+     * @return String nome abrevidado
+     */
     public String getNome() {
         return nome;
     }

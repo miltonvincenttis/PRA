@@ -85,3 +85,15 @@
   #solucao{
     background-color: #cccccc;
   }
+
+.card {
+    box-shadow: 1px 5px 30px rgb(195, 195, 195);
+}
+
+.msgErro {
+  visibility: hidden;
+  color: red;
+  margin: 0px;
+  padding: 0px;
+  font-size: 0.85rem;
+}

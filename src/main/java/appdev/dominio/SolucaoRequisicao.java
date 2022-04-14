@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 public class SolucaoRequisicao {
     public String id;
     public String descricao;
-    public LocalDateTime datahora;
+    public String dataHora;
     public String idPessoa;
     public String idDenuncia;
 }
