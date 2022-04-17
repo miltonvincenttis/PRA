@@ -37,7 +37,6 @@
 </head>
 
 <body onload="verificarAutenticacaoDeUsuario(); carregarDenuncias();">
-
     <!-- Top Bar -->
     <div class="top-bar">
         <div class="containe-fluid">
@@ -111,14 +110,14 @@
                      -->
                    </select>
                 </div>
-                <div class="msgErro" id="msgErroTipoDeProblemaDenuncia">Voce deve selecionar um Tipo de Problema.</div>                
+                <div class="msgErro" id="msgErroIncluirTipoDeProblemaDenuncia">Voce deve selecionar um Tipo de Problema.</div>                
                 <div class="form-group">
                   <label for="message-text" class="form-label">Descrição:</label>
                   <textarea class="form-control" id="incluirDenunciaDescricao" maxlength="333"></textarea>
                 </div>
-                <div class="msgErro" id="msgErroDescricaoDenuncia">Voce deve informar uma descrição.</div>                
+                <div class="msgErro" id="msgErroIncluirDescricaoDenuncia">Voce deve informar uma descrição.</div>                
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="desligarMsgErro('msgErroDescricaoDenuncia'); desligarMsgErro('msgErroTipoDeProblemaDenuncia');">Fechar</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="desligarMsgErro('msgErroIncluirDescricaoDenuncia'); desligarMsgErro('msgErroIncluirTipoDeProblemaDenuncia');">Fechar</button>
                   
                   <!-- data-dismiss="modal" retirar isso se vc quer manter o dialogo aberto no Ok (deve fechar com JS)-->                  
                   <button type="button" class="btn btn-primary" onclick="incluirDenuncia(event)">Ok</button>
@@ -146,22 +145,88 @@
                 <label for="message-text" class="form-label">Descrição:</label>
                 <textarea class="form-control" id="incluirComentarioDescricao" maxlength="333"></textarea>
               </div>
-              <div class="msgErro" id="msgErroComentarioDescricao">Voce deve informar uma descrição.</div>
+              <div class="msgErro" id="msgErroIncluirComentarioDescricao">Voce deve informar uma descrição.</div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="desligarMsgErro('msgErroComentarioDescricao');">Fechar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="desligarMsgErro('msgErroIncluirComentarioDescricao');">Fechar</button>
                 <button id="botaoOkIncluirComentario" type="button" class="btn btn-primary" onclick="incluirComentario(event)">Ok</button>
               </div>
             </form>
           </div>
         </div>
       </div>
-
+    </div>
       <!-- Dialogo para entrada de Solução -->
-   <div class="modal fade" id="dialogoIncluirSolucao" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tituloDialogo" aria-hidden="true">
+    <div class="modal fade" id="dialogoIncluirSolucao" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tituloDialogo" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="tituloDialogo">Incluir Solução</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <label for="message-text" class="form-label">Descrição:</label>
+                <textarea class="form-control" id="incluirSolucaoDescricao" maxlength="333"></textarea>
+              </div>
+              <div class="msgErro" id="msgErroIncluirSolucaoDescricao">Voce deve informar uma descrição.</div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="desligarMsgErro('msgErroIncluirSolucaoDescricao');">Fechar</button>
+                <button id="botaoOkIncluirSolucao" type="button" class="btn btn-primary" onclick="incluirSolucao(event)">Ok</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>   
+
+  <!-- Dialogo para Editar Denuncia -->
+  <div class="modal fade" id="dialogoEditarDenuncia" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tituloDialogo" aria-hidden="true">  <!-- -->
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="tituloDialogo">Incluir Solução</h5>
+          <h5 class="modal-title" id="tituloDialogo">Editar Denúncia</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="recipient-name" class="form-label">Tipo de Problema:</label>
+              <select class="form-control" id="selectEditarTiposDeProblemas">
+                 <!--
+                    Área de injeção de HTML.
+                 -->
+               </select>
+            </div>
+            <div class="msgErro" id="msgErroEditarTipoDeProblemaDenuncia">Voce deve selecionar um Tipo de Problema.</div>                
+            <div class="form-group">
+              <label for="message-text" class="form-label">Descrição:</label>
+              <textarea class="form-control" id="editarDenunciaDescricao" maxlength="333"></textarea>
+            </div>
+            <div class="msgErro" id="msgErroEditarDescricaoDenuncia">Voce deve informar uma descrição.</div>                
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="desligarMsgErro('msgErroEditarDescricaoDenuncia'); desligarMsgErro('msgErroTipoDeProblemaDenuncia');">Fechar</button>
+              
+              <!-- data-dismiss="modal" retirar isso se vc quer manter o dialogo aberto no Ok (deve fechar com JS)-->                  
+              <button id="botaoOkEditarDenuncia" type="button" class="btn btn-primary" onclick="editarDenuncia(event)">Ok</button>
+            </div>          
+
+          </form>
+        </div>
+      </div>
+    </div>
+</div>   
+
+  <!-- Dialogo para Editar Denuncia -->
+  <div class="modal fade" id="dialogoEditarComentario" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tituloDialogo" aria-hidden="true">  <!-- -->
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloDialogo">Editar Comentário</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -170,18 +235,138 @@
           <form>
             <div class="form-group">
               <label for="message-text" class="form-label">Descrição:</label>
-              <textarea class="form-control" id="incluirComentarioDescricao" maxlength="333"></textarea>
+              <textarea class="form-control" id="editarComentarioDescricao" maxlength="333"></textarea>
             </div>
-            <div class="msgErro" id="msgErroSolucaoDescricao">Voce deve informar uma descrição.</div>
+            <div class="msgErro" id="msgErroEditarDescricaoComentario">Voce deve informar uma descrição.</div>                
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="desligarMsgErro('msgErroSolucaoDescricao');">Fechar</button>
-              <button id="botaoOkIncluirSolucao" type="button" class="btn btn-primary" onclick="incluirSolucao(event)">Ok</button>
-            </div>
+              <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="desligarMsgErro('msgErroEditarDescricaoDenuncia');">Fechar</button>
+              
+              <!-- data-dismiss="modal" retirar isso se vc quer manter o dialogo aberto no Ok (deve fechar com JS)-->                  
+              <button id="botaoOkEditarComentario" type="button" class="btn btn-primary" onclick="editarComentario(event)">Ok</button>
+            </div>          
+
           </form>
         </div>
       </div>
     </div>
+</div>   
 
-  </div>   
+  <!-- Dialogo para editar Solução -->
+<div class="modal fade" id="dialogoEditarSolucao" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tituloDialogo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tituloDialogo">Editar Solução</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="message-text" class="form-label">Descrição:</label>
+            <textarea class="form-control" id="editarSolucaoDescricao" maxlength="333"></textarea>
+          </div>
+          <div class="msgErro" id="msgErroEditarSolucaoDescricao">Voce deve informar uma descrição.</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="desligarMsgErro('msgErroEditarSolucaoDescricao');">Fechar</button>
+            <button id="botaoOkEditarSolucao" type="button" class="btn btn-primary" onclick="editarSolucao(event)">Ok</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>   
+
+  <!-- Dialogo para remover Denuncia -->
+  <div class="modal fade" id="dialogoRemoverDenuncia" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tituloDialogo" aria-hidden="true">  <!-- -->
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tituloDialogo">Confirma Remover Denúncia?</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-group">
+              <label for="recipient-name" class="form-label">Tipo de Problema:</label>
+              <select class="form-control" id="selectRemoverTiposDeProblemas" disabled>
+                 <!--
+                    Área de injeção de HTML.
+                 -->
+               </select>
+            </div>
+            <div class="form-group">
+              <label for="message-text" class="form-label">Descrição:</label>
+              <textarea class="form-control" id="removerDenunciaDescricao" maxlength="333" disabled></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+              
+              <!-- data-dismiss="modal" retirar isso se vc quer manter o dialogo aberto no Ok (deve fechar com JS)-->                  
+              <button id="botaoOkRemoverDenuncia" type="button" class="btn btn-primary" onclick="removerDenuncia(event)">Ok</button>
+            </div>          
+
+          </form>
+        </div>
+      </div>
+    </div>
+</div>   
+
+<!-- Dialogo para remover Comentario -->
+<div class="modal fade" id="dialogoRemoverComentario" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tituloDialogo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tituloDialogo">Confirma Remover Comentário?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="message-text" class="form-label">Descrição:</label>
+            <textarea class="form-control" id="removerComentarioDescricao" maxlength="333" disabled></textarea>
+          </div>
+          <div class="msgErro" id="msgErroRemoverComentarioDescricao">Voce deve informar uma descrição.</div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button id="botaoOkRemoverComentario" type="button" class="btn btn-primary" onclick="removerComentario(event)">Ok</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Dialogo para remover Solução -->
+<div class="modal fade" id="dialogoRemoverSolucao" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="tituloDialogo" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="tituloDialogo">Confirma Remover Solução?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="message-text" class="form-label">Descrição:</label>
+            <textarea class="form-control" id="removerSolucaoDescricao" maxlength="333" disabled></textarea>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            <button id="botaoOkRemoverSolucao" type="button" class="btn btn-primary" onclick="removerSolucao(event)">Ok</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>   
+
 </body>
 </html>

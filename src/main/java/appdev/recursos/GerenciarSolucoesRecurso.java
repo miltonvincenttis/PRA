@@ -1,5 +1,7 @@
 package appdev.recursos;
 
+import appdev.dominio.Comentario;
+import appdev.dominio.ComentarioRequisicao;
 import appdev.dominio.Solucao;
 import appdev.dominio.SolucaoRequisicao;
 
@@ -12,7 +14,7 @@ import javax.ws.rs.core.Response;
  *
  * Incluir
  * POST: /solucoes
- * 200: ok
+ * 201: created: incluiu
  * 400: bad request: descricao não veio ou está vazio
  * 404: not found: não encontrou ou Pessoa ou TipoDeProblema
  *
@@ -32,6 +34,29 @@ import javax.ws.rs.core.Response;
  */
 @Path("/solucoes")
 public class GerenciarSolucoesRecurso {
+    /**
+     * Encontra Comentario por seu Id.
+     *
+     * @param solucaoRequisicao
+     * @return Response
+     */
+    @Path("/id")
+    @POST()
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response encontrarPorId(SolucaoRequisicao solucaoRequisicao){
+        //--- verificamos que id veio, se não BAD REQUEST
+        if (solucaoRequisicao.id == null || solucaoRequisicao.id.length() == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        Solucao comentario = Solucao.encontrarPorId(solucaoRequisicao);
+
+        if(comentario != null){
+            return Response.ok(comentario).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -45,7 +70,7 @@ public class GerenciarSolucoesRecurso {
         }
 
         if(Solucao.incluir(solucaoRequisicao)){
-            return Response.status(Response.Status.OK).build();
+            return Response.status(Response.Status.CREATED).build();
         }
 
         return Response.status(Response.Status.NOT_FOUND).build();

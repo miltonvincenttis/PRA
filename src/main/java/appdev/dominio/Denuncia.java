@@ -117,6 +117,16 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
      */
     @Transactional
     public static boolean remover(DenunciaRequisicao denunciaRequisicao){
+        //--- remove as curtidas se tiver
+        Curtida.delete("denuncias_fk",denunciaRequisicao.id);
+
+        //--- anula as referencias pra não erros de integridade referencia,
+        Denuncia denuncia = Denuncia.findById(denunciaRequisicao.id);
+        denuncia.setPessoa(null);
+        denuncia.setTipoDeProblema(null);
+        denuncia.setCurtidas(null);
+        denuncia.persist();
+
         return Denuncia.deleteById(denunciaRequisicao.id);
     }
 
@@ -144,8 +154,16 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
 
         boolean temComentario =  Comentario.find("denuncia", denuncia).firstResult() != null;
         boolean temSolucao = Solucao.find("denuncia", denuncia).firstResult() != null;
-
         return (!temSolucao && !temComentario);
+    }
+
+    /**
+     * Procura Denuncia por id.
+     * @param denunciaRequisicao
+     * @return Denuncia.
+     */
+    public static Denuncia encontrarPorId(DenunciaRequisicao denunciaRequisicao) {
+        return Denuncia.findById(denunciaRequisicao.id);
     }
 
     public void addCurtida(Denuncia denuncia, Pessoa pessoa){

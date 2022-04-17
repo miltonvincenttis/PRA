@@ -2,6 +2,8 @@ package appdev.recursos;
 
 import appdev.dominio.Comentario;
 import appdev.dominio.ComentarioRequisicao;
+import appdev.dominio.Denuncia;
+import appdev.dominio.DenunciaRequisicao;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -33,6 +35,30 @@ import javax.ws.rs.core.Response;
  */
 @Path("/comentarios")
 public class GerenciarComentariosRecurso {
+    /**
+     * Encontra Comentario por seu Id.
+     *
+     * @param comentarioRequisicao
+     * @return Response
+     */
+    @Path("/id")
+    @POST()
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response encontrarPorId(ComentarioRequisicao comentarioRequisicao){
+        //--- verificamos que id veio, se não BAD REQUEST
+        if (comentarioRequisicao.id == null || comentarioRequisicao.id.length() == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        Comentario comentario = Comentario.encontrarPorId(comentarioRequisicao);
+
+        if(comentario != null){
+            return Response.ok(comentario).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
     /**
      * Ok: Testado no insomnia.
      *

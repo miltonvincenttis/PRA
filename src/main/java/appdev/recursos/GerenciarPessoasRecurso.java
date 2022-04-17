@@ -29,6 +29,27 @@ import java.util.List;
 
 @Path("/pessoas")
 public class GerenciarPessoasRecurso {
+    @Path("/id")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response procurarPorId(PessoaRequisicao pessoaRequisicao){
+        //--- verificamos que o idPessoa veio, se não BAD REQUEST
+        if(pessoaRequisicao.id == null || pessoaRequisicao.id.length() == 0){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        Pessoa pessoa = Pessoa.findById(pessoaRequisicao.id);
+        //--- devolve sem a senha
+        pessoa.setSenha(null);
+
+        if(pessoa != null){
+            return Response.ok(pessoa).build();
+        }
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
+
     /**
      * Ok: Testado no insomnia.
      *

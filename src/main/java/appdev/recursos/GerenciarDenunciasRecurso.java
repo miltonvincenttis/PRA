@@ -48,6 +48,30 @@ import java.util.List;
  */
 @Path("/denuncias")
 public class GerenciarDenunciasRecurso {
+    /**
+     * Encontra Denuncia por seu Id.
+     *
+     * @param denunciaRequisicao
+     * @return Response
+     */
+    @Path("/id")
+    @POST()
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response encontrarPorId(DenunciaRequisicao denunciaRequisicao){
+        //--- verificamos que id veio, se não BAD REQUEST
+        if (denunciaRequisicao.id == null || denunciaRequisicao.id.length() == 0) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        Denuncia denuncia = Denuncia.encontrarPorId(denunciaRequisicao);
+
+        if(denuncia != null){
+            return Response.ok(denuncia).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
+
 
     /***
      * Ok: testado

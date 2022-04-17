@@ -69,7 +69,7 @@ public class Solucao extends PanacheEntityBase implements Serializable {
     @Transactional
     public static boolean alterar(SolucaoRequisicao solucaoRequisicao) {
         boolean resultado = false;
-        Solucao solucao = Comentario.findById(solucaoRequisicao.id);
+        Solucao solucao = Solucao.findById(solucaoRequisicao.id);
 
         if(solucao != null){
             //--- se descricao é diferente do gravado, alterar descricao e datahora
@@ -84,13 +84,20 @@ public class Solucao extends PanacheEntityBase implements Serializable {
     }
 
     /**
-     *
      * @param solucaoRequisicao
      * @return true se deletou | false se não
      */
     @Transactional
     public static boolean remover(SolucaoRequisicao solucaoRequisicao) {
         return Solucao.deleteById(solucaoRequisicao.id);
+    }
+
+    /**
+     * @param solucaoRequisicao
+     * @return Solucao se encontrou | null se não
+     */
+    public static Solucao encontrarPorId(SolucaoRequisicao solucaoRequisicao) {
+        return Solucao.findById(solucaoRequisicao.id);
     }
 
     public String getId() {

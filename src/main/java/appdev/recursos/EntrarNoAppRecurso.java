@@ -40,14 +40,10 @@ public class EntrarNoAppRecurso {
             resultadoOk = pessoa.getSenha().equals(autenticacao.getSenha());
         }
         if(resultadoOk) {
-            //--- que tipo de usuário ele é:
-            boolean isAdmin = pessoa.isAdmin();
-
             return Response.ok().
                     cookie(
                             new NewCookie("appToken", pessoa.getId()),
-                            new NewCookie("appNomeUsuario", autenticacao.getUsuario()),
-                            new NewCookie("appPerfilUsuario", isAdmin? "admin":"comum")
+                            new NewCookie("appPerfilUsuario", (pessoa.isAdmin()? "admin":"comum"))
                     ).build();
         }else{
             //--- 403: Forbidden resposta: senhas não combinam

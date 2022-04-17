@@ -89,13 +89,20 @@ public class Comentario extends PanacheEntityBase implements Serializable {
     }
 
     /**
-     *
      * @param comentarioRequisicao
      * @return true se deletou | false se não
      */
     @Transactional
     public static boolean remover(ComentarioRequisicao comentarioRequisicao) {
         return Comentario.deleteById(comentarioRequisicao.id);
+    }
+
+    /**
+     * @param comentarioRequisicao
+     * @return objeto Comentarios se encontrou | null se não
+     */
+    public static Comentario encontrarPorId(ComentarioRequisicao comentarioRequisicao) {
+        return Comentario.findById(comentarioRequisicao.id);
     }
 
     public String getId() {

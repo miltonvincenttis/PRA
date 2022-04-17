@@ -45,7 +45,6 @@ public class RegistrarNoAppRecurso {
             return Response.status(Response.Status.CREATED).
                     cookie(
                             new NewCookie("appToken", pessoa.getId()),
-                            new NewCookie("appNomeUsuario", registro.getUsuario()),
                             new NewCookie("appPerfilUsuario", "comum")
                     ).build();
         }
