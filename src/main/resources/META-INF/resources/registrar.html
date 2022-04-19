@@ -22,7 +22,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://use.fontawesome.com/releases/v5.0.8/js/all.js"></script>
     <script src="/js/registrar.js"></script>
-
+    <script src="/js/app.js"></script>
+    
     <!-- js pra trabalhar com cookies -->
     <script src="/js/js.cookie.min.js"></script>
 
@@ -35,19 +36,19 @@
             <div class="alert alert-danger text-center" id="msgErroServidor">Usuário já existe com o nome</div>
             <form >
                 <div class="form-group">
-                    <label>Usuário</label>
-                    <input class="form-control" oninput="limparAlerta('#msgErroUsuario')" id="usuarioInput" type="text" name="usuario" placeholder="Informe seu nome">                    
+                    <label title="até 40 letras">Usuário</label>
+                    <input value="" maxlength="40" class="form-control" oninput="limparAlerta('#msgErroUsuario')" id="usuarioInput" type="text" name="usuario" placeholder="Informe seu nome">                    
                 </div>
                 <div class="msgErro" id="msgErroUsuario">Voce deve informar seu nome de usuario</div>
                 <div class="form-group">
-                    <label>Senha</label>
-                    <input class="form-control" oninput="limparAlerta('#msgErroSenha1')" id="senhaInput1" type="password" name="senha" placeholder="Informe sua senha">                    
+                    <label title="até 15 letras">Senha</label>
+                    <input value="" maxlength="15" class="form-control" oninput="limparAlerta('#msgErroSenha1')" id="senhaInput1" type="password" name="senha" placeholder="Informe sua senha">                    
                 </div>
                 <div class="msgErro" id="msgErroSenha1">Voce deve informar uma senha</div>                
 
                 <div class="form-group">
-                    <label>Senha novamente</label>
-                    <input class="form-control" oninput="limparAlerta('#msgErroSenha2')" id="senhaInput2" type="password" name="senha" placeholder="Informe a senha novamente">                    
+                    <label title="até 15 letras"s>Senha novamente</label>
+                    <input value="" maxlength="15" class="form-control" oninput="limparAlerta('#msgErroSenha2')" id="senhaInput2" type="password" name="senha" placeholder="Informe a senha novamente">                    
                 </div>
                 <div class="msgErro" id="msgErroSenha2">Voce deve informar novamente a senha</div>                
                 <div class="msgErro" id="msgErroSenhaDiferentes">As senhas são diferentes</div>                    

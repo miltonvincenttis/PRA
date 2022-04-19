@@ -1,30 +1,34 @@
-//--- Enviar e receber dados em formato JSON usando metodo POST
+/**
+ * Alerta generico.
+ * 
+ * @param titulo 
+ * @param alerta 
+ */
+ function mostrarAlerta(titulo, alerta){
+    let divInjetarAlertaGenerico = document.getElementById('divAlertaGenerico')
 
-var xhr = new XMLHttpRequest();
-var url = "url";
-xhr.open("POST", url, true);
-xhr.setRequestHeader("Content-Type", "application/json");
-xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        var json = JSON.parse(xhr.responseText);
-        console.log(json.email + ", " + json.password);
-    }
-};
-var data = JSON.stringify({"email": "hey@mail.com", "password": "101010"});
-xhr.send(data);
+    let htmlAlertaGenerico = `
+     <div class="modal fade" id="alertaGenerico" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">${titulo}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+            ${alerta}
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+        </div>
+       </div> 
+    `;
 
-
-
-//--- Envair e receber dados em formato JSON usando metodo GET
-
-var xhr = new XMLHttpRequest();
-var url = "url?data=" + encodeURIComponent(JSON.stringify({"email": "hey@mail.com", "password": "101010"}));
-xhr.open("GET", url, true);
-xhr.setRequestHeader("Content-Type", "application/json");
-xhr.onreadystatechange = function () {
-    if (xhr.readyState === 4 && xhr.status === 200) {
-        var json = JSON.parse(xhr.responseText);
-        console.log(json.email + ", " + json.password);
-    }
-};
-xhr.send();
+    divInjetarAlertaGenerico.innerHTML = htmlAlertaGenerico;
+    $('#alertaGenerico').modal('show')
+    divInjetarAlertaGenerico.innerHTML = ""
+}

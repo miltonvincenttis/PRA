@@ -63,7 +63,8 @@ public class GerenciarPessoasRecurso {
     @Produces(MediaType.APPLICATION_JSON)
     public Response alterar(PessoaRequisicao pessoaRequisicao){
         //--- verificamos que o idPessoa veio, se não BAD REQUEST
-        if(pessoaRequisicao.id == null || pessoaRequisicao.id.length() == 0){
+        if(pessoaRequisicao.id == null || pessoaRequisicao.id.trim().length() == 0 ||
+           pessoaRequisicao.nome == null || pessoaRequisicao.nome.trim().length() == 0){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 

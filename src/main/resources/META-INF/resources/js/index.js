@@ -60,7 +60,7 @@ function verificarAutenticacaoDeUsuario(){
         let jsonRequisicao = JSON.stringify({"id": appToken})
         let jsonResposta = null
         let json = {jsonRequisicao, jsonResposta}
-        requisitarPessoaBackend(json)
+        requisitarPessoaPorIdBackend(json)
 
         let appNomeUsuario = json.jsonResposta.nome;
         //--- carregar todos dados do servidor e renderizar na pagina principal
@@ -98,7 +98,7 @@ function verificarAutenticacaoDeUsuario(){
  * JSON: {"id": appToken}
  * request: POST /pessoas/id
  */
- function requisitarPessoaBackend(json) {
+ function requisitarPessoaPorIdBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
@@ -116,7 +116,7 @@ function verificarAutenticacaoDeUsuario(){
               case 400: /** bad request:  id de Pessoa não foi enviado  **/
               case 404: /** not found:    id de Pessoa não existem  **/    
               case 500:
-                  alert('Erro de servidor: '+this.statusText)
+                  mostrarAlerta('','Erro de servidor: '+this.statusText)
                   resultado = false;
                   break;
             }
@@ -148,7 +148,9 @@ function sair(){
  * 
  */
 function carregarDenuncias(){
-    requisitarDenunciasBackend();
+    desligarTelaGerenciarPessoas()
+    ligarPainelDenuncias()
+    requisitarDenunciasBackend()
 }
 
 //-----------------------------------------------------------------------------
@@ -211,17 +213,15 @@ function ligarIconePaginaSemDenuncias(){
 
 /**
  * Liga o painel de denuncias.
- * 
  */
 function ligarPainelDenuncias(){
-    document.querySelector("#painelDenuncias").style.display = 'visible'
+    document.querySelector("#painelDenuncias").style.display = 'block'
 }
 
 //-----------------------------------------------------------------------------
 
 /**
  * Desliga o painel de denuncias.
- * 
  */
  function desligarPainelDenuncias(){
     document.querySelector("#painelDenuncias").style.display = 'none'
@@ -533,7 +533,7 @@ function obterIdCurtida(denuncia){
 function abrirDialogoIncluirDenuncia(){
    if(!requisitarTiposDeProblemasBackend(produzirHTMLIncluirSelectTiposDeProblemas)){
       //--- avisamos se não tiver Tipo de Problema cadastrado ou der algum problema.
-      alert('Fale com um usuário Admin. Houve um problema na lista de Tipos de Problemas.')
+      mostrarAlerta('','Fale com um usuário Admin. Houve um problema na lista de Tipos de Problemas.')
       return;
    }
 
@@ -721,14 +721,14 @@ function incluirDenuncia(event){
    }
    
    //--- valida se descricao foi preenchido
-   if(!descricao){
+   if(!descricao || descricao.trim().length == 0){
        ligarMsgErro('msgErroIncluirDescricaoDenuncia');
    }else{
       desligarMsgErro('msgErroIncluirDescricaoDenuncia');
    }
 
    //--- se qualquer erro
-   if(!descricao || !idTipoDeProblema)
+   if( descricao.trim().length == 0 || !idTipoDeProblema)
       return false;
    
    //--- fechar o dialogo manualmente
@@ -742,7 +742,7 @@ function incluirDenuncia(event){
    tester(json)
    
    if(incluirDenunciaBackend(json)){
-      alert('Sua Denúncia foi incluida com sucesso!')
+      mostrarAlerta('','Sua Denúncia foi incluida com sucesso!')
       carregarDenuncias();
    }
 
@@ -784,7 +784,7 @@ function desligarMsgErro(id){
             case 400: /** bad request:  id de Pessoa ou id de Tipo de Problema não foram  **/
             case 404: /** not found:    id de Pessoa ou id de Tipo de Problema não foram não existem  **/    
             case 500:
-                alert('Erro de servidor: '+this.statusText)
+                mostrarAlerta('','Erro de servidor: '+this.statusText)
                 resultado = false;
                 break;
           }
@@ -873,7 +873,7 @@ function curtir(event){
              case 400: /** bad request:  id de Pessoa ou id da curtida não foram enviados **/
              case 404: /** not found:    id de Pessoa ou id de curtida não existe  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -893,7 +893,7 @@ function abrirDialogoEditarDenuncia(event){
     let idPessoa = iconeEditar.getAttribute('idpessoa')
 
     if(!temPermissao(PERMISSAO.editarDenuncia, idPessoa)){
-        alert('Só a Pessoa que criou a Denúncia pode edita-la.')
+        mostrarAlerta('','Só a Pessoa que criou a Denúncia pode edita-la.')
         return false;
     }
 
@@ -901,7 +901,7 @@ function abrirDialogoEditarDenuncia(event){
 
     if(!requisitarEditarTiposDeProblemasBackend(produzirHTMLEditarSelectTiposDeProblemas, idTipoDeProblema, 'selectEditarTiposDeProblemas')){
        //--- avisamos se não tiver Tipo de Problema cadastrado ou der algum problema.
-       alert('Fale com um usuário Admin. Houve um problema na lista de Tipos de Problemas.')
+       mostrarAlerta('','Aviso','Fale com um usuário Admin. Houve um problema na lista de Tipos de Problemas.')
        return;
     }
  
@@ -914,7 +914,7 @@ function abrirDialogoEditarDenuncia(event){
     let json = {jsonRequisicao, jsonResposta}
 
     //--- pegamos o json a partir do backend: tipo de problema e descrição
-    obterDenunciaPorIdBackend(json)
+    requisitarDenunciaPorIdBackend(json)
 
     let descricao = json.jsonResposta.descricao
 
@@ -934,6 +934,11 @@ function injetarValorEmCampo(valor, idCampoAlvo){
     document.getElementById(idCampoAlvo).value = valor;
 }
 
+//-----------------------------------------------------------------------------
+
+function injetarValorEmCampoCheckbox(valor, idCampoAlvo){
+    document.getElementById(idCampoAlvo).checked = valor;
+}
 
 //-----------------------------------------------------------------------------
 
@@ -943,7 +948,7 @@ function injetarValorEmCampo(valor, idCampoAlvo){
  * JSON: nenhum
  * request: POST /denuncias
  */
- function obterDenunciaPorIdBackend(json) {
+ function requisitarDenunciaPorIdBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
@@ -961,7 +966,7 @@ function injetarValorEmCampo(valor, idCampoAlvo){
              case 400: /** bad request:  id de Pessoa ou id de Tipo de Problema não foram  **/
              case 404: /** not found:    id de Pessoa ou id de Tipo de Problema não foram não existem  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -995,14 +1000,14 @@ function editarDenuncia(event){
     }
 
     //--- valida se descricao foi preenchido
-    if(!descricao){
+    if(!descricao || descricao.trim().length == 0){
         ligarMsgErro('msgErroEditarDescricaoDenuncia');
     }else{
         desligarMsgErro('msgErroEditarDescricaoDenuncia');
     }    
 
     //--- se qualquer erro
-    if(!descricao || !idTipoDeProblema)
+    if(!descricao || descricao.trim().length == 0 || !idTipoDeProblema)
         return false;
 
     //--- fechar o dialogo manualmente
@@ -1016,7 +1021,7 @@ function editarDenuncia(event){
     tester(json)
    
     if(editarDenunciaBackend(json)){
-        alert('Sua Denúncia foi alterada com sucesso!')
+        mostrarAlerta('','Sua Denúncia foi alterada com sucesso!')
         carregarDenuncias();
      }
   
@@ -1046,7 +1051,7 @@ function editarDenuncia(event){
              case 400: /** bad request:  id de Pessoa ou id de Tipo de Problema não foram  **/
              case 404: /** not found:    id de Pessoa ou id de Tipo de Problema não foram não existem  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -1065,7 +1070,7 @@ function abrirDialogoRemoverDenuncia(event){
     let idPessoa = iconeEditar.getAttribute('idpessoa')
 
     if(!temPermissao(PERMISSAO.editarDenuncia, idPessoa)){
-        alert('Só a Pessoa que criou a Denúncia pode remove-la.')
+        mostrarAlerta('','Só a Pessoa que criou a Denúncia pode remove-la.')
         return false;
     }
 
@@ -1073,7 +1078,7 @@ function abrirDialogoRemoverDenuncia(event){
 
     if(!requisitarEditarTiposDeProblemasBackend(produzirHTMLEditarSelectTiposDeProblemas, idTipoDeProblema, 'selectRemoverTiposDeProblemas')){
        //--- avisamos se não tiver Tipo de Problema cadastrado ou der algum problema.
-       alert('Fale com um usuário Admin. Houve um problema na lista de Tipos de Problemas.')
+       mostrarAlerta('','Fale com um usuário Admin. Houve um problema na lista de Tipos de Problemas.')
        return;
     }
  
@@ -1086,7 +1091,7 @@ function abrirDialogoRemoverDenuncia(event){
     let json = {jsonRequisicao, jsonResposta}
 
     //--- pegamos o json a partir do backend: tipo de problema e descrição
-    obterDenunciaPorIdBackend(json)
+    requisitarDenunciaPorIdBackend(json)
 
     let descricao = json.jsonResposta.descricao
 
@@ -1144,11 +1149,11 @@ function removerDenuncia(event){
                  break;
              case 400: /** bad request:  id de Pessoa ou id de Tipo de Problema não foram  **/
              case 403: 
-                 alert('A Denúncia não pode ser removida pois tem Comentários ou Soluções.')
+                 mostrarAlerta('','A Denúncia não pode ser removida pois tem Comentários ou Soluções.')
                  break;
              case 404: /** not found:    id de Pessoa ou id de Tipo de Problema não foram não existem  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -1224,7 +1229,7 @@ function injetarAtributos(jsonAInjetar, idOndeInjetar){
     document.getElementById('incluirComentarioDescricao').value = ''
 
     //--- validar a descricao
-    if(!descricaoComentario){
+    if(!descricaoComentario  || descricaoComentario.trim().length == 0){
         ligarMsgErro('msgErroIncluirComentarioDescricao')
         return false;
     }else{
@@ -1241,7 +1246,7 @@ function injetarAtributos(jsonAInjetar, idOndeInjetar){
     tester(json)
     
     if(incluirComentarioBackend(json)){
-       alert('Seu Comentário foi incluido com sucesso!')
+       mostrarAlerta('','Seu Comentário foi incluido com sucesso!')
        carregarDenuncias();
     }
   }
@@ -1271,7 +1276,7 @@ function injetarAtributos(jsonAInjetar, idOndeInjetar){
              case 400: /** bad request:  id de Pessoa ou id de Tipo de Problema não foram  **/
              case 404: /** not found:    id de Pessoa ou id de Tipo de Problema não foram não existem  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -1290,7 +1295,7 @@ function abrirDialogoEditarComentario(event){
     let idPessoa = iconeEditar.getAttribute('idpessoa')
 
     if(!temPermissao(PERMISSAO.editarComentario, idPessoa)){
-        alert('Só a Pessoa que criou o Comentário pode edita-lo.')
+        mostrarAlerta('','Só a Pessoa que criou o Comentário pode edita-lo.')
         return false;
     }
 
@@ -1303,7 +1308,7 @@ function abrirDialogoEditarComentario(event){
     let json = {jsonRequisicao, jsonResposta}
 
     //--- pegamos o json a partir do backend: tipo de problema e descrição
-    obterComentarioPorIdBackend(json)
+    requisitarComentarioPorIdBackend(json)
 
     let descricao = json.jsonResposta.descricao
 
@@ -1325,7 +1330,7 @@ function abrirDialogoEditarComentario(event){
  * JSON: nenhum
  * request: POST /comentarios
  */
- function obterComentarioPorIdBackend(json) {
+ function requisitarComentarioPorIdBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
@@ -1343,7 +1348,7 @@ function abrirDialogoEditarComentario(event){
              case 400: /** bad request:  id de Comentario não foram enviados  **/
              case 404: /** not found:    id de Comentario não existem no backend  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -1367,15 +1372,12 @@ function abrirDialogoEditarComentario(event){
     let idComentario = document.getElementById('botaoOkEditarComentario').getAttribute('idComentario')
 
     //--- valida se descricao foi preenchido
-    if(!descricao){
+    if(!descricao || descricao.trim().length == 0){
         ligarMsgErro('msgErroEditarDescricaoComentario');
+        return false
     }else{
         desligarMsgErro('msgErroEditarDescricaoComentario');
     }    
-
-    //--- se qualquer erro
-    if(!descricao)
-        return false;
 
     //--- fechar o dialogo manualmente
     $('#dialogoEditarComentario').modal('hide')
@@ -1388,7 +1390,7 @@ function abrirDialogoEditarComentario(event){
     tester(json)
    
     if(editarComentarioBackend(json)){
-        alert('Sua Comentário foi alterado com sucesso!')
+        mostrarAlerta('','Sua Comentário foi alterado com sucesso!')
      }
      carregarDenuncias();     
   
@@ -1421,7 +1423,7 @@ function abrirDialogoEditarComentario(event){
              case 400: /** bad request:  id de Comentario não foram enviados  **/
              case 404: /** not found:    id de Comentario não existem no backend  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -1440,7 +1442,7 @@ function abrirDialogoRemoverComentario(event){
     let idPessoa = iconeEditar.getAttribute('idpessoa')
 
     if(!temPermissao(PERMISSAO.removerComentario, idPessoa)){
-        alert('Só a Pessoa que criou a Denúncia pode remove-la.')
+        mostrarAlerta('','Só a Pessoa que criou o Comentário pode remove-lo.')
         return false;
     }
 
@@ -1453,7 +1455,7 @@ function abrirDialogoRemoverComentario(event){
     let json = {jsonRequisicao, jsonResposta}
 
     //--- pegamos o json a partir do backend: tipo de problema e descrição
-    obterComentarioPorIdBackend(json)
+    requisitarComentarioPorIdBackend(json)
 
     let descricao = json.jsonResposta.descricao
 
@@ -1514,7 +1516,7 @@ function abrirDialogoRemoverComentario(event){
              case 400: /** bad request:  id de Comentario não foram enviados  **/
              case 404: /** not found:    id de Comentario não existem no backend  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -1535,7 +1537,7 @@ function abrirDialogoRemoverComentario(event){
  function abrirDialogoIncluirSolucao(onClickEventAbrirDialogoIncluirSolucao){
     //--- verificamos se tem permissão
     if(!temPermissao(PERMISSAO.criarSolucao)){
-        alert('Somente usuário Admin pode incluir Solução.')
+        mostrarAlerta('','Somente usuário Admin pode incluir Solução.')
         return false;
     }   
 
@@ -1579,7 +1581,7 @@ function abrirDialogoRemoverComentario(event){
     document.getElementById('incluirSolucaoDescricao').value = ''
 
     //--- validar a descricao
-    if(!descricaoComentario){
+    if(!descricaoComentario || descricaoComentario.trim().length == 0){
         ligarMsgErro('msgErroIncluirSolucaoDescricao')
         return false;
     }else{
@@ -1596,7 +1598,7 @@ function abrirDialogoRemoverComentario(event){
     tester(json)
     
     if(incluirSolucaoBackend(json)){
-       alert('Sua Solução foi incluido com sucesso!')
+        mostrarAlerta('','Sua Solução foi incluido com sucesso!')
        carregarDenuncias();
     }
   }
@@ -1626,7 +1628,7 @@ function abrirDialogoRemoverComentario(event){
              case 400: /** bad request:  id de Pessoa ou id de Tipo de Problema não foram  **/
              case 404: /** not found:    id de Pessoa ou id de Tipo de Problema não foram não existem  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -1645,7 +1647,7 @@ function abrirDialogoEditarSolucao(event){
     let idPessoa = iconeEditar.getAttribute('idpessoa')
 
     if(!temPermissao(PERMISSAO.editarSolucao, idPessoa)){
-        alert('Só a Pessoa que criou a Solução pode edita-lo e deve ser Admin.')
+        mostrarAlerta('','Só a Pessoa que criou a Solução pode edita-la e deve ser Admin.')
         return false;
     }
 
@@ -1658,7 +1660,7 @@ function abrirDialogoEditarSolucao(event){
     let json = {jsonRequisicao, jsonResposta}
 
     //--- pegamos o json a partir do backend: tipo de problema e descrição
-    obterSolucaoPorIdBackend(json)
+    requisitarSolucaoPorIdBackend(json)
 
     let descricao = json.jsonResposta.descricao
 
@@ -1680,7 +1682,7 @@ function abrirDialogoEditarSolucao(event){
  * JSON: nenhum
  * request: POST /solucoes
  */
- function obterSolucaoPorIdBackend(json) {
+ function requisitarSolucaoPorIdBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
@@ -1698,7 +1700,7 @@ function abrirDialogoEditarSolucao(event){
              case 400: /** bad request:  id de Comentario não foram enviados  **/
              case 404: /** not found:    id de Comentario não existem no backend  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -1721,14 +1723,14 @@ function editarSolucao(event){
     let idSolucao = document.getElementById('botaoOkEditarSolucao').getAttribute('idSolucao')
 
     //--- valida se descricao foi preenchido
-    if(!descricao){
+    if(!descricao || descricao.trim().length == 0){
         ligarMsgErro('msgErroEditarSolucaoDescricao');
     }else{
         desligarMsgErro('msgErroEditarSolucaoDescricao');
     }    
 
     //--- se qualquer erro
-    if(!descricao)
+    if(!descricao || descricao.trim().length == 0)
         return false;
 
     //--- fechar o dialogo manualmente
@@ -1742,7 +1744,7 @@ function editarSolucao(event){
     tester(json)
    
     if(editarSolucaoBackend(json)){
-        alert('Sua Solução foi alterada com sucesso!')
+        mostrarAlerta('','Sua Solução foi alterada com sucesso!')
         carregarDenuncias();
      }
   
@@ -1773,7 +1775,7 @@ function editarSolucao(event){
              case 400: /** bad request:  id de Solucao ou descricao não foram  **/
              case 404: /** not found:    id de Solucao ou descricao não existem  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -1792,7 +1794,7 @@ function abrirDialogoRemoverSolucao(event){
     let idPessoa = iconeEditar.getAttribute('idpessoa')
 
     if(!temPermissao(PERMISSAO.removerSolucao, idPessoa)){
-        alert('Só a Pessoa que criou a Solução pode remove-la.')
+        mostrarAlerta('','Só a Pessoa que criou a Solução pode remove-la e deve ser Admin.')
         return false;
     }
 
@@ -1805,7 +1807,7 @@ function abrirDialogoRemoverSolucao(event){
     let json = {jsonRequisicao, jsonResposta}
 
     //--- pegamos o json a partir do backend: tipo de problema e descrição
-    obterSolucaoPorIdBackend(json)
+    requisitarSolucaoPorIdBackend(json)
 
     let descricao = json.jsonResposta.descricao
 
@@ -1866,7 +1868,7 @@ function abrirDialogoRemoverSolucao(event){
              case 400: /** bad request:  id de Comentario não foram enviados  **/
              case 404: /** not found:    id de Comentario não existem no backend  **/    
              case 500:
-                 alert('Erro de servidor: '+this.statusText)
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
                  resultado = false;
                  break;
            }
@@ -1937,7 +1939,8 @@ function abrirDialogoRemoverSolucao(event){
     editarComentario: 7,
     removerComentario: 8,
     editarSolucao: 9,
-    removerSolucao: 10
+    removerSolucao: 10,
+    gerenciarPessoas: 11
 }
 
 const USUARIO = {
@@ -1955,26 +1958,23 @@ function temPermissao(permissao, idCriador){
         case PERMISSAO.editarComentario:
         case PERMISSAO.removerDenuncia:
         case PERMISSAO.removerComentario:
-            //alert('Só o dono pode');
             temPermissao = verificarPermissaoSoDonoPode(idCriador)
             break;
         case PERMISSAO.criarDenuncia:    
         case PERMISSAO.criarComentario:
         case PERMISSAO.curtirDenuncia:
-            //alert('Qualquer um pode')
             temPermissao = true;
             break;
         case PERMISSAO.criarSolucao:
-            //alert('Só Admin pode')
             temPermissao = verificarPermissaoSomenteAdminPode()
             break;
         case PERMISSAO.editarSolucao:    
         case PERMISSAO.removerSolucao:
-            //alert('Só o dono pode e tem que ser Admin')
+        case PERMISSAO.gerenciarPessoas:
             temPermissao = verificarPermissaoSomenteAdminDonoPode(idCriador)
             break;
         default: 
-            alert('Passou uma permissão desconhecida');
+            mostrarAlerta('','Passou uma permissão desconhecida');
     }
     return temPermissao;
 }
@@ -2012,3 +2012,426 @@ function verificarPermissaoSomenteAdminDonoPode(idCriador){
     return verificarPermissaoSoDonoPode(idCriador) && verificarPermissaoSomenteAdminPode();
 }
 
+//-----------------------------------------------------------------------------
+
+/**
+ * Gerencia Pessoas: 
+ *  Incluir: é feito no dialogo Entrar, opção 'Novo aqui? crie uma conta>'
+ *  Editar:
+ *  Remover:
+ * 
+ * @param event 
+ */
+function abrirDialogoGerenciarPessoas(){
+    if(!temPermissao(PERMISSAO.gerenciarPessoas, Cookies.get('appToken'))){
+        mostrarAlerta('','Somente usuários Admin pode usar essa opção.')
+    }
+
+    //--- desligar a tela de Denuncias
+    desligarPainelDenuncias()      
+    requisitarPessoasBackend();
+    ligarTelaGerenciarPessoas()
+
+}
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Mostra a tela Gerenciamento de Pessoas
+ */
+function ligarTelaGerenciarPessoas(){
+    document.querySelector("#telaGerenciarPessoas").style.visibility = 'visible'
+}
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Esconde a tela Gerenciamento de Pessoas
+ */
+function desligarTelaGerenciarPessoas(){
+    document.querySelector("#telaGerenciarPessoas").style.visibility = 'hidden'
+}
+
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Editar Pessoa. Obter Pessoa por Id.
+ * 
+ * JSON: nenhum
+ * request: POST /pessoas
+ */
+ function requisitarPessoaPorIdBackend2(json) {
+    let resultado = false;
+    let async = false;
+    let xhr = new XMLHttpRequest();
+    let url = "http://localhost/pessoas/id";
+ 
+    xhr.open("POST", url, async);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+           switch(xhr.status){
+             case 200: /** ok **/
+                 json.jsonResposta = JSON.parse(xhr.responseText)
+                 resultado = true;
+                 break;
+             case 400: /** bad request:  id de Comentario não foram enviados  **/
+             case 404: /** not found:    id de Comentario não existem no backend  **/    
+             case 500:
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
+                 resultado = false;
+                 break;
+           }
+        }
+    };
+    xhr.send(json.jsonRequisicao);
+    return resultado;
+ }
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Remover Pessoa.
+ * @param event 
+ */
+ function abrirDialogoRemoverPessoa(event){
+    mostrarAlerta('','RemoverPessoa')
+}
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Liga e Desliga os eventos de gerenciamento para uma Pessoa.
+ * 
+ * @param event 
+ */
+function ligarDesligarGerenciamento(event){
+    //--- pega o id da Pessoa
+    let idPessoa = event.target.getAttribute('idPessoa')
+    let estaLigado = event.target.hasAttribute('ligado')
+
+    //---procura pelo elemento 1
+    let isAdmin = document.getElementById(idPessoa+'-1')
+
+    //--- procura pelo elemento 2
+    let icones = document.getElementById(idPessoa+'-2')
+    
+    if(!estaLigado){
+        //--- cria o atributo 'ligado' no event.target 
+        event.target.setAttribute('ligado','')
+        
+        isAdmin.classList.remove('disabledbutton')
+        icones.classList.remove('disabledbutton')
+    }   
+    else{
+        event.target.removeAttribute('ligado')
+        isAdmin.classList.add('disabledbutton')
+        icones.classList.add('disabledbutton')
+    } 
+}
+
+//-----------------------------------------------------------------------------
+
+/**
+ * JSON: nenhum
+ * request: GET /pessoas
+ */
+ function requisitarPessoasBackend() {
+    let resultado = false;
+    let async = false;
+    let xhr = new XMLHttpRequest();
+    let url = "http://localhost/pessoas";
+
+    xhr.open("GET", url, async);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                if( xhr.response.length != 0){
+                  var pessoas = JSON.parse(xhr.responseText);
+                  if(pessoas.length != 0){
+                    mostrarPessoas(pessoas);
+                  }else{
+                    mostrarAlerta('','Não há pessoas pra gerenciar.');
+                  }
+                }
+                resultado = true;
+            }else{
+                tester("Erro: "+this.statusText)
+                ligarIconePaginaSemDenuncias();
+            }
+        }
+    };
+    xhr.send();
+    return resultado;
+}
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Preenche dados das Pessoas contidas no App.
+ * 
+ * @param pessoas 
+ */
+function mostrarPessoas(pessoas){
+    document.body.style.zoom = "80%";
+    
+    let pontoInsercao = document.getElementById("pontoInsercaoTelaGerenciarPessoas");
+    
+    //--- limpamos a tela se existir uma anterior e injetamos novo conteudo
+    pontoInsercao.innerHTML = `
+    <div class="row" style="font-size: 22px; padding-left: 00px;">
+        <div class="border-bottom border-secondary col-md-3 col-lg-4">Pessoas</div>
+        <div class="border-bottom border-secondary col-md-3 col-lg-4 .d-none .d-md-none .d-lg-block"></div>
+        <div class="border-bottom border-secondary col-md-3 col-lg-4 .d-none .d-md-none .d-lg-block"></div>
+    </div>
+  
+    <div class="row" style="padding-left:10x;">
+        <div class="border-bottom border-secondary col-md-3 col-lg-4">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pessoas:</div>
+        <div class="border-bottom border-secondary col-md-3 col-lg-4 .d-none .d-md-none .d-lg-block"></div>
+        <div class="border-bottom border-secondary col-md-3 col-lg-4 .d-none .d-md-none .d-lg-block"></div>
+    </div>
+
+    `;
+
+    //--- renderiza uma coluna por Denuncia contendo Comentarios e Solucoes ou não.
+    for(i=0; i < pessoas.length; i++){
+      pontoInsercao.insertAdjacentHTML('beforeend',(produzirHTMLGerenciarPessoas(pessoas[i])))
+    }
+ }
+
+ //-----------------------------------------------------------------------------
+
+ /**
+  * Cria um template por Pessoa.
+  * 
+  * @param pessoa 
+  */
+ function produzirHTMLGerenciarPessoas(pessoa){
+    let htmlPessoa = `
+
+        <div class="row" style="padding-left:10x;">
+            <div class="col-md-3 col-lg-4" style="padding-bottom: 0px; padding-top: 5px;">
+                <form>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input idPessoa="${pessoa.id}" class="form-check-input" type="checkbox" onclick="ligarDesligarGerenciamento(event)"> ${pessoa.nome}
+                        </label>
+                    </div>               
+                </form>
+            </div>
+            
+            <div id="${pessoa.id}-1" class="col-md-3 col-lg-4 disabledbutton" style="padding-bottom: 0px; padding-top: 5px;">
+                <form>
+                    <div class="form-group form-check">
+                        <label class="form-check-label">
+                            <input  class="form-check-input" type="checkbox" disabled ${pessoa.admin?`checked`:``}> É admin
+                        </label>
+                    </div>               
+                </form>
+            </div>
+
+            <div id="${pessoa.id}-2" class="col-md-3 col-lg-4 disabledbutton" style="padding-bottom: 0px; padding-top: 5px;">
+                <span><i title="editar"  idPessoa="${pessoa.id}" class="fa fa-pencil" aria-disabled="disabled" onclick="abrirDialogoEditarPessoa(event)"></i></span> 
+                <span><i title="remover" idPessoa="${pessoa.id}" class="far fa-trash-can" aria-disabled="disabled" onclick="abrirDialogoRemoverPessoa(event)"></i></span>
+            </div>     
+        </div>
+
+    `;
+    return htmlPessoa
+ }
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Editar Pessoa.
+ * @param event 
+ */
+ function abrirDialogoEditarPessoa(event){
+    //--- obter id da pessoa pra requisitar seus dados
+    let idPessoa = event.target.getAttribute('idPessoa')
+
+    //--- solicitar os dados no backend
+    let jsonRequisicao = JSON.stringify({"id": idPessoa})
+    let jsonResposta = null
+    let json = { jsonRequisicao, jsonResposta}
+
+    //--- pegamos o json a partir do backend: tipo de problema e descrição
+    requisitarPessoaPorIdBackend(json)
+
+    let nome = json.jsonResposta.nome
+    let isAdmin = json.jsonResposta.admin
+
+    //--- injetamos no botão OK os seguintes atributos
+    let jsonInjecao = {"idPessoa":idPessoa}
+    $('#dialogoEditarPessoa').on('show.bs.modal', injetarAtributos(jsonInjecao,'botaoOkEditarPessoa'))   
+    $('#dialogoEditarPessoa').on('show.bs.modal', injetarValorEmCampo(nome, 'editarPessoaNome'))
+    $('#dialogoEditarPessoa').on('show.bs.modal', injetarValorEmCampoCheckbox((isAdmin? 'checked':'') , 'editarPessoaIsAdmin'))
+
+    //--- abrimos o dialogo e esperamos sair
+    $('#dialogoEditarPessoa').modal('show');
+}
+
+//-----------------------------------------------------------------------------
+
+function editarPessoa(event){
+    let nome = document.getElementById('editarPessoaNome').value
+
+    valido = nome.trim().length != 0
+    if(!valido){
+        ligarMsgErro('msgErroEditarPessoa')
+        return false
+    }else{
+        desligarMsgErro('msgErroEditarPessoa')
+    }
+
+    let idPessoa = event.target.getAttribute('idPessoa')
+    let isAdmin = document.getElementById('editarPessoaIsAdmin').checked
+
+    let json = JSON.stringify({"id":idPessoa, "nome": nome, "admin": isAdmin})
+
+    tester(json)
+
+    if(editarPessoaBackend(json)){
+        mostrarAlerta('','Pessoa editada com sucesso!')
+    }
+
+    $('#dialogoEditarPessoa').modal('hide');
+
+    abrirDialogoGerenciarPessoas()
+
+ }
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Editar Pessoa.
+ * 
+ * request: PUT /pessoas
+ */
+ function editarPessoaBackend(json) {
+    let resultado = false;
+    let async = false;
+    let xhr = new XMLHttpRequest();
+    let url = "http://localhost/pessoas";
+ 
+    xhr.open("PUT", url, async);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+           switch(xhr.status){
+             case 200: /** ok **/           
+                 resultado = true;
+                 break;
+             case 400: /** bad request:  id de Pessoa ou nome ou isAdmin não foram enviados  **/
+             case 404: /** not found:    id de Pessoa não existe  **/    
+             case 500:
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
+                 resultado = false;
+                 break;
+           }
+        }
+    };
+    xhr.send(json);
+    return resultado;
+ }
+
+//-----------------------------------------------------------------------------
+
+ /**
+ * Remover Pessoa.
+ * @param event 
+ */
+  function abrirDialogoRemoverPessoa(event){
+    //--- obter id da pessoa pra requisitar seus dados
+    let idPessoa = event.target.getAttribute('idPessoa')
+
+    //--- solicitar os dados no backend
+    let jsonRequisicao = JSON.stringify({"id": idPessoa})
+    let jsonResposta = null
+    let json = { jsonRequisicao, jsonResposta}
+
+    //--- pegamos o json a partir do backend: tipo de problema e descrição
+    requisitarPessoaPorIdBackend(json)
+
+    let nome = json.jsonResposta.nome
+    let isAdmin = json.jsonResposta.admin
+
+    //--- injetamos no botão OK os seguintes atributos
+    let jsonInjecao = {"idPessoa":idPessoa}
+    $('#dialogoRemoverPessoa').on('show.bs.modal', injetarAtributos(jsonInjecao,'botaoOkRemoverPessoa'))   
+    $('#dialogoRemoverPessoa').on('show.bs.modal', injetarValorEmCampo(nome, 'removerPessoaNome'))
+    $('#dialogoRemoverPessoa').on('show.bs.modal', injetarValorEmCampoCheckbox((isAdmin? 'checked':'') , 'removerPessoaIsAdmin'))
+
+    //--- abrimos o dialogo e esperamos sair
+    $('#dialogoRemoverPessoa').modal('show');
+}
+
+//-----------------------------------------------------------------------------
+
+ function removerPessoa(event){
+    mostrarAlerta('', 'Remover Pessoa')
+}
+
+ function removerPessoa(event){
+    //--- pegamos apenas o id do comentário pra requisição de remoção 
+    let idPessoa = event.target.getAttribute('idPessoa');
+
+    //--- criamos um JSON pra requisição
+    let json = JSON.stringify({"id":idPessoa})
+
+    //--- mandamos remover
+    removerPessoaBackend(json)
+
+    //--- fechamos o dialogo manualmente
+    $('#dialogoRemoverPessoa').modal('hide')
+
+    abrirDialogoGerenciarPessoas()
+
+}
+
+//-----------------------------------------------------------------------------
+
+/**
+ * Remover Pessoa.
+ * 
+ * JSON: {"id": idPessoa}
+ * 
+ * request: DELETE /pessoas
+ */
+ function removerPessoaBackend(json) {
+    let resultado = false;
+    let async = false;
+    let xhr = new XMLHttpRequest();
+    let url = "http://localhost/pessoas";
+ 
+    xhr.open("DELETE", url, async);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+           switch(xhr.status){
+             case 200: /** ok **/
+                 resultado = true;
+                 break;
+             case 400: /** bad request:  id de pessoa não foi enviado  **/
+             case 403:
+                 mostrarAlerta('','Pessoa tem ou Denúncia, Comentário ou Solução. Proibido remover.')
+                 break;
+             case 404: /** not found:    id de pessoa não existe no backend  **/    
+             case 500:
+                 mostrarAlerta('','Erro de servidor: '+this.statusText)
+                 resultado = false;
+                 break;
+           }
+        }
+    };
+    xhr.send(json);
+    return resultado;
+ }
+
+ //-----------------------------------------------------------------------------
+
+ function abrirDialogoGerenciarTiposDeProblemas(){
+     
+ }

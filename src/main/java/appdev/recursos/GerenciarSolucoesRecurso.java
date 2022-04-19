@@ -62,9 +62,9 @@ public class GerenciarSolucoesRecurso {
     @Produces(MediaType.APPLICATION_JSON)
     public Response incluir(SolucaoRequisicao solucaoRequisicao){
         //--- verificamos se descricao, idPessoa, idDenuncia vieram
-        if(solucaoRequisicao.descricao == null || solucaoRequisicao.descricao.length() == 0 ||
-                solucaoRequisicao.idDenuncia == null || solucaoRequisicao.idDenuncia.length() == 0 ||
-                solucaoRequisicao.idPessoa == null || solucaoRequisicao.idPessoa.length()==0 ){
+        if(solucaoRequisicao.descricao == null || solucaoRequisicao.descricao.trim().length() == 0 ||
+                solucaoRequisicao.idDenuncia == null || solucaoRequisicao.idDenuncia.trim().length() == 0 ||
+                solucaoRequisicao.idPessoa == null || solucaoRequisicao.idPessoa.trim().length()==0 ){
 
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -81,8 +81,8 @@ public class GerenciarSolucoesRecurso {
     @Produces(MediaType.APPLICATION_JSON)
     public Response alterar(SolucaoRequisicao solucaoRequisicao){
         //--- verificamos se id e descricao vieram
-        if(solucaoRequisicao.descricao == null || solucaoRequisicao.descricao.length() == 0 ||
-                solucaoRequisicao.id == null || solucaoRequisicao.id.length() == 0){
+        if(solucaoRequisicao.descricao == null || solucaoRequisicao.descricao.trim().length() == 0 ||
+                solucaoRequisicao.id == null || solucaoRequisicao.id.trim().length() == 0){
 
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

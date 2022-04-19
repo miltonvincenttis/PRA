@@ -97,3 +97,15 @@
   padding: 0px;
   font-size: 0.85rem;
 }
+
+#telaGerenciarPessoas .container{
+  background-color: white;
+}
+
+/*
+  Permite disabilitar toda uma row.
+*/
+.disabledbutton {
+  pointer-events: none;
+  opacity: 0.4;
+}

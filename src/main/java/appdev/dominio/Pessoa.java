@@ -2,12 +2,14 @@ package appdev.dominio;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+import io.quarkus.hibernate.orm.panache.PanacheQuery;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -95,6 +97,17 @@ public class Pessoa extends PanacheEntityBase implements Serializable {
      */
     @Transactional
     public static boolean remover(PessoaRequisicao pessoaRequisicao){
+        Pessoa pessoa = Pessoa.findById(pessoaRequisicao.id);
+
+        //--- deletamos todas as curtidas dessa Pessoa
+        List<Curtida> curtidas = Curtida.find("pessoa", pessoa).list();
+        for (Curtida curtida: curtidas) {
+            Denuncia denuncia = curtida.getDenuncia();
+            denuncia.removeCurtida(curtida);
+
+            curtida.setPessoa(null);
+            curtida.delete();
+        }
         return Pessoa.deleteById(pessoaRequisicao.id);
     }
 

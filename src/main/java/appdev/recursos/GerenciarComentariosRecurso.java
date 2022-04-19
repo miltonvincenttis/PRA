@@ -70,9 +70,9 @@ public class GerenciarComentariosRecurso {
     @Produces(MediaType.APPLICATION_JSON)
     public Response incluir(ComentarioRequisicao comentarioRequisicao){
         //--- verificamos se descricao, idPessoa, idDenuncia vieram
-        if(comentarioRequisicao.descricao == null || comentarioRequisicao.descricao.length() == 0 ||
-           comentarioRequisicao.idDenuncia == null || comentarioRequisicao.idDenuncia.length() == 0 ||
-           comentarioRequisicao.idPessoa == null || comentarioRequisicao.idPessoa.length()==0 ){
+        if(comentarioRequisicao.descricao == null || comentarioRequisicao.descricao.trim().length() == 0 ||
+           comentarioRequisicao.idDenuncia == null || comentarioRequisicao.idDenuncia.trim().length() == 0 ||
+           comentarioRequisicao.idPessoa == null || comentarioRequisicao.idPessoa.trim().length()==0 ){
 
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
@@ -94,8 +94,8 @@ public class GerenciarComentariosRecurso {
     @Produces(MediaType.APPLICATION_JSON)
     public Response alterar(ComentarioRequisicao comentarioRequisicao){
         //--- verificamos se id e descricao vieram
-        if(comentarioRequisicao.descricao == null || comentarioRequisicao.descricao.length() == 0 ||
-           comentarioRequisicao.id == null || comentarioRequisicao.id.length() == 0){
+        if(comentarioRequisicao.descricao == null || comentarioRequisicao.descricao.trim().length() == 0 ||
+           comentarioRequisicao.id == null || comentarioRequisicao.id.trim().length() == 0){
 
             return Response.status(Response.Status.BAD_REQUEST).build();
         }

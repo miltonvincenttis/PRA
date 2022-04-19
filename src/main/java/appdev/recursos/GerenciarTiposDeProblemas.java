@@ -41,7 +41,7 @@ public class GerenciarTiposDeProblemas {
     @Produces(MediaType.APPLICATION_JSON)
     public Response incluir(TipoDeProblemaRequisicao tipoDeProblemaRequisicao){
         //--- verificamos se veio descricao se não BAD REQUEST
-        if( tipoDeProblemaRequisicao.descricao == null || tipoDeProblemaRequisicao.descricao.length() == 0){
+        if( tipoDeProblemaRequisicao.descricao == null || tipoDeProblemaRequisicao.descricao.trim().length() == 0){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -89,8 +89,8 @@ public class GerenciarTiposDeProblemas {
     @Produces(MediaType.APPLICATION_JSON)
     public Response alterar(TipoDeProblemaRequisicao tipoDeProblemaRequisicao){
         //--- verificamos se veio descricao se não BAD REQUEST
-        if( tipoDeProblemaRequisicao.descricao == null || tipoDeProblemaRequisicao.descricao.length() == 0 ||
-            tipoDeProblemaRequisicao.id == null || tipoDeProblemaRequisicao.id.length() == 0){
+        if( tipoDeProblemaRequisicao.descricao == null || tipoDeProblemaRequisicao.descricao.trim().length() == 0 ||
+            tipoDeProblemaRequisicao.id == null || tipoDeProblemaRequisicao.id.trim().length() == 0){
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 

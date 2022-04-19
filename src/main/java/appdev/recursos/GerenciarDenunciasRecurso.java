@@ -82,8 +82,9 @@ public class GerenciarDenunciasRecurso {
     @Produces(MediaType.APPLICATION_JSON)
     public Response incluir(DenunciaRequisicao denunciaRequisicao){
         //--- verificamos que idPessoa e idTipoDeProblema vieram, se não BAD REQUEST
-        if (denunciaRequisicao.idPessoa == null || denunciaRequisicao.idPessoa.length() == 0 ||
-            denunciaRequisicao.idTipoDeProblema == null || denunciaRequisicao.idTipoDeProblema.length() == 0) {
+        if (denunciaRequisicao.idPessoa == null || denunciaRequisicao.idPessoa.trim().length() == 0 ||
+            denunciaRequisicao.idTipoDeProblema == null || denunciaRequisicao.idTipoDeProblema.trim().length() == 0 ||
+            denunciaRequisicao.descricao == null || denunciaRequisicao.descricao.trim().length() == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 
@@ -112,8 +113,8 @@ public class GerenciarDenunciasRecurso {
     public Response alterar(DenunciaRequisicao denunciaRequisicao) {
         //--- verificamos que o idDenuncia veio, se não BAD REQUEST
         if (denunciaRequisicao.id == null || denunciaRequisicao.id.length() == 0 ||
-            denunciaRequisicao.idTipoDeProblema == null || denunciaRequisicao.idTipoDeProblema.length() == 0 ||
-            denunciaRequisicao.descricao == null ||  denunciaRequisicao.descricao.length() == 0) {
+            denunciaRequisicao.idTipoDeProblema == null || denunciaRequisicao.idTipoDeProblema.trim().length() == 0 ||
+            denunciaRequisicao.descricao == null ||  denunciaRequisicao.descricao.trim().length() == 0) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
 

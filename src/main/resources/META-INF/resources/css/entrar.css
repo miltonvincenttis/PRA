@@ -40,7 +40,7 @@ div.form-group{
     visibility: hidden;
     color: red;
 
-    font-size: 0.85rem;
+    font-size: 0.7rem;
 }
 
 .msgErro {
@@ -48,7 +48,7 @@ div.form-group{
     color: red;
     margin-top: -10px;
     padding: 0px;
-    font-size: 0.85rem;
+    font-size: 0.7rem;
 }
 
 #msgErroServidor{
