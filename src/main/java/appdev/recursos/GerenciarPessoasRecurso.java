@@ -1,10 +1,12 @@
 package appdev.recursos;
 
 import appdev.dominio.*;
+import io.quarkus.panache.common.Sort;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -143,7 +145,8 @@ public class GerenciarPessoasRecurso {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarTodas(){
-        List<Pessoa> pessoas = Pessoa.listAll();
+        Sort sort = Sort.descending("nome");
+        List pessoas = Pessoa.listAll(sort);
 
         return Response.ok(pessoas).build();
     }

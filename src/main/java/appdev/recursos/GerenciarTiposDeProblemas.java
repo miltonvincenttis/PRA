@@ -1,8 +1,10 @@
 package appdev.recursos;
 
 import appdev.dominio.Denuncia;
+import appdev.dominio.Pessoa;
 import appdev.dominio.TipoDeProblema;
 import appdev.dominio.TipoDeProblemaRequisicao;
+import io.quarkus.panache.common.Sort;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -29,12 +31,35 @@ import java.util.List;
  */
 @Path("/tiposdeproblemas")
 public class GerenciarTiposDeProblemas {
+    /**
+     * Ok: testado no insomnia.
+     *
+     * @param tipoDeProblemaRequisicao
+     * @return 200, 400, 404
+     */
+    @Path("/id")
+    @POST
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response encontrarPorId(TipoDeProblemaRequisicao tipoDeProblemaRequisicao){
+        //--- verificamos se veio descricao se não BAD REQUEST
+        if( tipoDeProblemaRequisicao.id == null || tipoDeProblemaRequisicao.id.trim().length() == 0){
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+
+        TipoDeProblema tpd = TipoDeProblema.encontrarPorId(tipoDeProblemaRequisicao);
+        if(tpd != null){
+            return Response.ok(tpd).build();
+        }
+
+        return Response.status(Response.Status.NOT_FOUND).build();
+    }
 
     /**
      * Ok: testado no insomnia.
      *
      * @param tipoDeProblemaRequisicao
-     * @return 200, 400
+     * @return 201, 400
      */
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -46,8 +71,11 @@ public class GerenciarTiposDeProblemas {
         }
 
         TipoDeProblema tpd = TipoDeProblema.incluir(tipoDeProblemaRequisicao);
+        if(tpd != null){
+            return Response.status(Response.Status.CREATED).build();
+        }
 
-        return Response.ok(tpd).build();
+        return Response.status(Response.Status.REQUEST_ENTITY_TOO_LARGE).build();
     }
 
     /**
@@ -111,7 +139,8 @@ public class GerenciarTiposDeProblemas {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarTodos(){
-        List<TipoDeProblema> tdps = TipoDeProblema.listAll();
+        Sort sort = Sort.descending("descricao");
+        List<TipoDeProblema> tdps = TipoDeProblema.listAll(sort);
 
         return Response.ok(tdps).build();
     }

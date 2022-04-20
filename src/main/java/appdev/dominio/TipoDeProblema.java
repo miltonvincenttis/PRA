@@ -1,14 +1,11 @@
 package appdev.dominio;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import javax.ws.rs.core.Response;
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Representa um Tipo de Problema. Padrão Active Record.
@@ -67,6 +64,15 @@ public class TipoDeProblema extends PanacheEntityBase implements Serializable {
         }
 
         return null;
+    }
+
+    /**
+     * @param tipoDeProblemaRequisicao
+     * @return true se encontrou, false se não encontrou
+     */
+    @Transactional
+    public static TipoDeProblema encontrarPorId(TipoDeProblemaRequisicao tipoDeProblemaRequisicao) {
+        return TipoDeProblema.findById(tipoDeProblemaRequisicao.id);
     }
 
     public String getId() {
