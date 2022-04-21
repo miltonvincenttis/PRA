@@ -2,7 +2,6 @@ package appdev.recursos;
 
 import appdev.dominio.Autenticacao;
 import appdev.dominio.Pessoa;
-import org.jboss.logging.Logger;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

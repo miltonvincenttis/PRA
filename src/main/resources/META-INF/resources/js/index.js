@@ -150,7 +150,9 @@ function sair() {
 function carregarDenuncias() {
     desligarTelaGerenciarPessoas()
     desligarTelaGerenciarTiposDeProblemas()
-    ligarPainelDenuncias()
+    desligarDashboard()
+
+    ligarPainelDenuncias()   
     requisitarDenunciasBackend()
 }
 
@@ -536,6 +538,8 @@ function obterIdCurtida(denuncia) {
 function abrirDialogoIncluirDenuncia() {
     desligarTelaGerenciarPessoas()
     desligarTelaGerenciarTiposDeProblemas()
+    desligarDashboard()
+
     carregarDenuncias()
 
     if (!requisitarTiposDeProblemasBackend(produzirHTMLIncluirSelectTiposDeProblemas)) {
@@ -2039,7 +2043,9 @@ function abrirDialogoGerenciarPessoas() {
     //--- desligar a tela de Denuncias
     desligarPainelDenuncias()
     desligarTelaGerenciarTiposDeProblemas()
-    desligarIconePaginaSemDenuncias()    
+    desligarIconePaginaSemDenuncias()
+    desligarDashboard()
+
     requisitarPessoasBackend();
     ligarTelaGerenciarPessoas()
 
@@ -2508,6 +2514,8 @@ function abrirDialogoGerenciarTiposDeProblemas() {
     desligarPainelDenuncias()
     desligarTelaGerenciarPessoas()
     desligarIconePaginaSemDenuncias()
+    desligarDashboard()
+
     requisitarTiposDeProblemasBackend2()
     ligarTelaGerenciarTiposDeProblemas()
 
@@ -2992,3 +3000,166 @@ function incluirTipoDeProblemaBackend(json) {
     xhr.send(json);
     return resultado;
 }
+
+
+//-----------------------------------------------------------------------------
+
+function ligarDashboard() {
+    document.getElementById('dashboard').style.display = 'block'
+ }
+ 
+ //-----------------------------------------------------------------------------
+ 
+ function desligarDashboard() {
+    document.getElementById('dashboard').style.display = 'none'
+ }
+ 
+ //-----------------------------------------------------------------------------
+ 
+ /**
+  * DadosParaDashboard: JSON
+  * {
+  *    data1: [6, 5, 4, 3, 2, 1],
+  *    data2: [1, 2, 3, 4, 5, 6]
+  * }
+  */
+
+ //--- atenção: variavel global, pois temos que destruir o gráfico antes de fazer outro.
+ let myChart = null;
+
+ function abrirDashboard() {
+    //--- esconde todas as outras janelas
+    desligarTudo()
+
+    //--- requisição ao backend de dados para o dashboard e lá ele mostra o gráfico
+    requisitarDadosDashboardBackend()
+    ligarDashboard()
+ }
+ 
+ //-----------------------------------------------------------------------------
+
+ function desligarTudo(){
+    desligarIconePaginaSemDenuncias()
+    desligarPainelDenuncias()
+    desligarTelaGerenciarPessoas()
+    desligarTelaGerenciarTiposDeProblemas()            
+ }
+
+//-----------------------------------------------------------------------------
+
+function mostrarGraficoDeBarrasDashboard(json){
+    const ctx = document.getElementById('myChart').getContext('2d');
+    
+    //--- se for diferente de null, já foi utilizado antes, então vamos destrui-lo
+    if(myChart != null){
+        myChart.destroy();
+    }
+
+    myChart = new Chart(ctx, {
+       type: 'bar',
+       data: {
+          labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
+          datasets: [
+             {
+                label: 'Denúncia aberta',
+                data: json.data1,                       //[6, 5, 4, 3, 2, 1],
+                backgroundColor: [
+                   'rgba(255, 99, 132, 0.2)',
+                   'rgba(255, 99, 132, 0.2)',
+                   'rgba(255, 99, 132, 0.2)',
+                   'rgba(255, 99, 132, 0.2)',
+                   'rgba(255, 99, 132, 0.2)',
+                   'rgba(255, 99, 132, 0.2)',
+                ],
+                borderColor: [
+                   'rgba(255, 165, 184, 1)',
+                   'rgba(255, 165, 184, 1)',
+                   'rgba(255, 165, 184, 1)',
+                   'rgba(255, 165, 184, 1)',
+                   'rgba(255, 165, 184, 1)',
+                   'rgba(255, 165, 184, 1)',
+                ],
+                borderWidth: 1
+             },
+             {
+                label: 'Denúncia fechada',
+                data: json.data2,                       //[1, 2, 3, 4, 5, 6],
+                backgroundColor: [
+                   'rgba(75, 192, 192, 0.2)',
+                   'rgba(75, 192, 192, 0.2)',
+                   'rgba(75, 192, 192, 0.2)',
+                   'rgba(75, 192, 192, 0.2)',
+                   'rgba(75, 192, 192, 0.2)',
+                   'rgba(75, 192, 192, 0.2)',
+                ],
+                borderColor: [
+                   'rgba(127, 210, 210, 1)',
+                   'rgba(127, 210, 210, 1)',
+                   'rgba(127, 210, 210, 1)',
+                   'rgba(127, 210, 210, 1)',
+                   'rgba(127, 210, 210, 1)',
+                   'rgba(127, 210, 210, 1)',
+                ],
+                borderWidth: 1
+             }
+          ],
+ 
+       },
+       options: {
+          layout: {
+             padding: 100
+          },
+          scales: {
+             y: {
+                beginAtZero: true
+             }
+          }
+       }
+    });
+     
+}
+
+ //-----------------------------------------------------------------------------
+ 
+ function requisitarDadosDashboardBackend2() {
+    return { "data1": [6, 5, 4, 3, 2, 1], "data2": [1, 2, 3, 4, 5, 6] }
+ }
+
+//-----------------------------------------------------------------------------
+
+
+ /**
+ * Requisitar dados para o Dashboard.
+ * 
+ * request: POST /dashboard
+ */
+function requisitarDadosDashboardBackend() {
+    let resultado = false;
+    let async = false;
+    let xhr = new XMLHttpRequest();
+    let url = "http://localhost/dashboard";
+
+    xhr.open("POST", url, async);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload = function () {
+        if (xhr.readyState === 4) {
+            switch (xhr.status) {
+                case 200: /** ok **/
+                    json = JSON.parse(xhr.responseText)
+                    mostrarGraficoDeBarrasDashboard(json)
+                    resultado = true;
+                    break;
+                case 400: /** bad request:  id de Pessoa ou id de Tipo de Problema não foram  **/
+                case 404: /** not found:    id de Pessoa ou id de Tipo de Problema não foram não existem  **/
+                case 500:
+                    mostrarAlerta('', 'Erro de servidor: ' + this.statusText)
+                    resultado = false;
+                    break;
+            }
+        }
+    };
+    xhr.send();
+    return resultado;
+}
+
+//-----------------------------------------------------------------------------

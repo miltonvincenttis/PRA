@@ -39,6 +39,8 @@
    <!-- js pra trabalhar com cookies -->
    <script src="/js/js.cookie.min.js"></script>
 
+   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body onload="verificarAutenticacaoDeUsuario(); carregarDenuncias();">
@@ -69,19 +71,19 @@
             <ul class="navbar-nav ml-auto">
                <li class="nav-item" id="pessoasMenu"><a href="#" class="nav-link"
                      onclick="abrirDialogoGerenciarPessoas(event);">Pessoas</a></li>
-               <li class="nav-item"><a href="#" class="nav-link"
-                     onclick="abrirDialogoIncluirDenuncia();">Denúncias</a></li>
+               <li class="nav-item"><a href="#" class="nav-link" onclick="abrirDialogoIncluirDenuncia();">Denúncias</a>
+               </li>
                <li class="nav-item" id="tiposProblemasMenu"><a href="#" class="nav-link"
                      onclick="abrirDialogoGerenciarTiposDeProblemas();">Tipos Problemas</a></li>
                <li class="nav-item" id="dashboardMenu"><a href="#" class="nav-link"
-                     onclick="mostrarDashboard();">Dashboard</a></li>
+                     onclick="abrirDashboard();">Dashboard</a></li>
                <li class="nav-item"><a href="#" class="nav-link" onClick="sair()">Sair</a></li>
             </ul>
          </div>
       </div>
    </div>
 
-   <!-- Essa div é apresentada quando não temos sdenuncia registrada. -->
+   <!-- Essa div é apresentada quando não temos denuncia registrada. -->
    <div class="centralizado" id="iconeSemDenuncias">
       <img class="image-responsive" src="/img/icone-tela-vazia.png" />
       <div class="row">
@@ -430,7 +432,7 @@
                      <label for="editarPessoaNome" class="form-label">Nome:</label>
                      <input type="text" class="form-control" id="editarPessoaNome" maxlength="40">
                   </div>
-                  <div class="msgErro" id="msgErroEditarPessoa">Você deve informar um nome</div>   
+                  <div class="msgErro" id="msgErroEditarPessoa">Você deve informar um nome</div>
                   <div class="form-group form-check">
                      <label class="form-check-label">
                         <input id="editarPessoaIsAdmin" class="form-check-input" type="checkbox"> É admin
@@ -508,7 +510,7 @@
                      <label for="incluirTipoDeProblemaDescricao" class="form-label">Tipo de Problema:</label>
                      <input type="text" class="form-control" id="incluirTipoDeProblemaDescricao" maxlength="40">
                   </div>
-                  <div class="msgErro" id="msgErroIncluirTipoDeProblema">Você deve informar uma descrição</div>   
+                  <div class="msgErro" id="msgErroIncluirTipoDeProblema">Você deve informar uma descrição</div>
 
                   <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -538,7 +540,7 @@
                      <label for="editarTipoDeProblemaDescricao" class="form-label">Tipo de Problema:</label>
                      <input type="text" class="form-control" id="editarTipoDeProblemaDescricao" maxlength="40">
                   </div>
-                  <div class="msgErro" id="msgErroEditarTipoDeProblema">Você deve informar uma descrição</div>   
+                  <div class="msgErro" id="msgErroEditarTipoDeProblema">Você deve informar uma descrição</div>
 
                   <div class="modal-footer">
                      <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
@@ -566,7 +568,8 @@
                <form>
                   <div class="form-group">
                      <label for="removerTipoDeProblemaDescricao" class="form-label">Tipo de Problema:</label>
-                     <input type="text" class="form-control" id="removerTipoDeProblemaDescricao" maxlength="40" disabled>
+                     <input type="text" class="form-control" id="removerTipoDeProblemaDescricao" maxlength="40"
+                        disabled>
                   </div>
 
                   <div class="modal-footer">
@@ -580,10 +583,13 @@
       </div>
    </div>
 
-
    <!-- Alerta genérico -->
    <div id="divAlertaGenerico"></div>
 
+   <!-- aqui será desenhado o dashboard -->
+   <div id="dashboard" style="display: none;">
+      <canvas id="myChart" width="350" height="150"></canvas>
+   </div>
 
 </body>
 
