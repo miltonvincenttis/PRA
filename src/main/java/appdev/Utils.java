@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 
+import static java.time.ZoneId.SHORT_IDS;
+
 /**
  * Essa classe agrega metodos staticos utilitários.
  *
@@ -17,7 +19,7 @@ public class Utils {
         Instant i = Instant.from(ta);
         Date d = Date.from(i);
 
-        return d.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+        return d.toInstant().atZone(ZoneId.of(SHORT_IDS.get("BET"))).toLocalDateTime();
     }
 
     public static void main(String[] args) {
