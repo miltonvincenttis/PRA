@@ -102,7 +102,7 @@ function requisitarPessoaPorIdBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/pessoas/id";
+    let url = "http://quindar.io:8080/pessoas/id";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -166,7 +166,7 @@ function requisitarDenunciasBackend() {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/denuncias";
+    let url = "http://quindar.io:8080/denuncias";
 
     xhr.open("GET", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -566,7 +566,7 @@ function requisitarTiposDeProblemasBackend(funcaoAChamar) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/tiposdeproblemas";
+    let url = "http://quindar.io:8080/tiposdeproblemas";
 
     xhr.open("GET", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -600,7 +600,7 @@ function requisitarEditarTiposDeProblemasBackend(funcaoAChamar, idTipoDeProblema
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/tiposdeproblemas";
+    let url = "http://quindar.io:8080/tiposdeproblemas";
 
     xhr.open("GET", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -782,7 +782,7 @@ function incluirDenunciaBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/denuncias";
+    let url = "http://quindar.io:8080/denuncias";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -870,7 +870,7 @@ function curtirBackend(argumento, metodoHTTP) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/denuncias/curtidas";
+    let url = "http://quindar.io:8080/denuncias/curtidas";
 
     xhr.open(metodoHTTP, url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -963,7 +963,7 @@ function requisitarDenunciaPorIdBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/denuncias/id";
+    let url = "http://quindar.io:8080/denuncias/id";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1049,7 +1049,7 @@ function editarDenunciaBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/denuncias";
+    let url = "http://quindar.io:8080/denuncias";
 
     xhr.open("PUT", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1148,7 +1148,7 @@ function removerDenunciaBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/denuncias";
+    let url = "http://quindar.io:8080/denuncias";
 
     xhr.open("DELETE", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1274,7 +1274,7 @@ function incluirComentarioBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/comentarios";
+    let url = "http://quindar.io:8080/comentarios";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1345,7 +1345,7 @@ function requisitarComentarioPorIdBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/comentarios/id";
+    let url = "http://quindar.io:8080/comentarios/id";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1421,7 +1421,7 @@ function editarComentarioBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/comentarios";
+    let url = "http://quindar.io:8080/comentarios";
 
     xhr.open("PUT", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1514,7 +1514,7 @@ function removerComentarioBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/comentarios";
+    let url = "http://quindar.io:8080/comentarios";
 
     xhr.open("DELETE", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1626,7 +1626,7 @@ function incluirSolucaoBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/solucoes";
+    let url = "http://quindar.io:8080/solucoes";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1697,7 +1697,7 @@ function requisitarSolucaoPorIdBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/solucoes/id";
+    let url = "http://quindar.io:8080/solucoes/id";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1773,7 +1773,7 @@ function editarSolucaoBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/solucoes";
+    let url = "http://quindar.io:8080/solucoes";
 
     xhr.open("PUT", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -1866,7 +1866,7 @@ function removerSolucaoBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/solucoes";
+    let url = "http://quindar.io:8080/solucoes";
 
     xhr.open("DELETE", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -2061,7 +2061,7 @@ function requisitarPessoasBackend() {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/pessoas";
+    let url = "http://quindar.io:8080/pessoas";
 
     xhr.open("GET", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -2118,7 +2118,7 @@ function requisitarPessoaPorIdBackend2(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/pessoas/id";
+    let url = "http://quindar.io:8080/pessoas/id";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -2383,7 +2383,7 @@ function editarPessoaBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/pessoas";
+    let url = "http://quindar.io:8080/pessoas";
 
     xhr.open("PUT", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -2469,7 +2469,7 @@ function removerPessoaBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/pessoas";
+    let url = "http://quindar.io:8080/pessoas";
 
     xhr.open("DELETE", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -2531,7 +2531,7 @@ function requisitarTiposDeProblemasBackend2() {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/tiposdeproblemas";
+    let url = "http://quindar.io:8080/tiposdeproblemas";
 
     xhr.open("GET", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -2744,7 +2744,7 @@ function requisitarTipoDeProblemaPorIdBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/tiposdeproblemas/id";
+    let url = "http://quindar.io:8080/tiposdeproblemas/id";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -2808,7 +2808,7 @@ function editarTipoDeProblemaBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/tiposdeproblemas";
+    let url = "http://quindar.io:8080/tiposdeproblemas";
 
     xhr.open("PUT", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -2896,7 +2896,7 @@ function removerTipoDeProblemaBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/tiposdeproblemas";
+    let url = "http://quindar.io:8080/tiposdeproblemas";
 
     xhr.open("DELETE", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -2974,7 +2974,7 @@ function incluirTipoDeProblemaBackend(json) {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/tiposdeproblemas";
+    let url = "http://quindar.io:8080/tiposdeproblemas";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");
@@ -3137,7 +3137,7 @@ function requisitarDadosDashboardBackend() {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/dashboard";
+    let url = "http://quindar.io:8080/dashboard";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");

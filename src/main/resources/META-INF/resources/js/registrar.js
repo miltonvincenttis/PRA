@@ -85,7 +85,7 @@ function validarDadosForm() {
     let resultado = false;
     let async = false;  //--- assincrono pq estamos transitando por paginas
     let xhr = new XMLHttpRequest();
-    let url = "http://localhost/registrar";
+    let url = "http://quindar.io:8080/registrar";
 
     xhr.open("POST", url, async);
     xhr.setRequestHeader("Content-Type", "application/json");

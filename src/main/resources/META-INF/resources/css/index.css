@@ -109,3 +109,11 @@
   pointer-events: none;
   opacity: 0.4;
 }
+
+#pontoInsercaoTelaGerenciarPessoas {
+  box-shadow: 1px 5px 30px rgb(195, 195, 195);
+}
+
+#pontoInsercaoTelaGerenciarTiposDeProblemas{
+  box-shadow: 1px 5px 30px rgb(195, 195, 195);
+}
