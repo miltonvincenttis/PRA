@@ -2,13 +2,11 @@ package appdev.dominio;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.thoughtworks.xstream.converters.time.LocalDateTimeConverter;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 
 import javax.transaction.Transactional;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.UUID;

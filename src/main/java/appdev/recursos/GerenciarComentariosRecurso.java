@@ -2,8 +2,6 @@ package appdev.recursos;
 
 import appdev.dominio.Comentario;
 import appdev.dominio.ComentarioRequisicao;
-import appdev.dominio.Denuncia;
-import appdev.dominio.DenunciaRequisicao;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;

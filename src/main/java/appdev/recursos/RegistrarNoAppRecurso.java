@@ -1,7 +1,7 @@
 package appdev.recursos;
 
-import appdev.dominio.Registro;
 import appdev.dominio.Pessoa;
+import appdev.dominio.Registro;
 import org.jboss.logging.Logger;
 
 import javax.ws.rs.Consumes;

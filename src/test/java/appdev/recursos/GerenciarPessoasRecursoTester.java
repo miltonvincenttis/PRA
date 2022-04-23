@@ -1,13 +1,13 @@
 package appdev.recursos;
 
 
-import appdev.dominio.DenunciaRequisicao;
 import appdev.dominio.PessoaRequisicao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import io.quarkus.test.junit.QuarkusTest;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+
 import javax.ws.rs.core.Response;
 
 import static io.restassured.RestAssured.given;

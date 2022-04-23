@@ -1,7 +1,5 @@
 package appdev.recursos;
 
-import appdev.dominio.Comentario;
-import appdev.dominio.ComentarioRequisicao;
 import appdev.dominio.Solucao;
 import appdev.dominio.SolucaoRequisicao;
 

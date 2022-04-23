@@ -1,7 +1,5 @@
 package appdev.dominio;
 
-import java.time.LocalDateTime;
-
 /**
  * Essa classe representa o JSON que vem da requisição:
  *

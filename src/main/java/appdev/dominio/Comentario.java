@@ -3,15 +3,12 @@ package appdev.dominio;
 import appdev.Utils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.transaction.Transactional;
-import javax.ws.rs.core.Response;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * Representa um Comentário. Padrão Active Record.
