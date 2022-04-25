@@ -100,7 +100,7 @@ public class Denuncia extends PanacheEntityBase implements Serializable {
             resultado = true;
             //--- se a descricao for diferente alteramos a datahora tambem
             if(!denuncia.getDescricao().equalsIgnoreCase(denunciaRequisicao.descricao)){
-                denuncia.setDataHora(LocalDateTime.now());
+                denuncia.setDataHora(Utils.convertePraLocalDateTime(denunciaRequisicao.dataHora));
                 denuncia.setDescricao(denunciaRequisicao.descricao);
             }
             //--- atualizamos a referencia ao id do TipoDeProblema
