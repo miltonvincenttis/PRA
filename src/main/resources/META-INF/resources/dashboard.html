@@ -6,12 +6,27 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+
+    <style>
+        /**
+        canvas {
+            border: 1px dotted red;
+        }
+
+        .chart-container {
+            position: relative;
+            margin: auto;
+            height: 80vh;
+            width: 80vw;
+        }
+        **/
+    </style>
 </head>
 
 <body>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <div id="dashboard" style="display: block;">
+
+    <div class="chart-containers" id="dashboard" style="display: block; padding-top: 100px">
         <canvas id="myChart" width="350" height="150"></canvas>
     </div>
     <div id="dashboardScript">
@@ -24,53 +39,54 @@
                     labels: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho'],
                     datasets: [
                         {
-                        label: 'Denúncia aberta',
-                        data: [6, 5, 4, 3, 2, 1],
-                        backgroundColor: [
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 99, 132, 0.2)',
-                            'rgba(255, 99, 132, 0.2)',
-                        ],
-                        borderColor: [
-                            'rgba(255, 165, 184, 1)',
-                            'rgba(255, 165, 184, 1)',
-                            'rgba(255, 165, 184, 1)',
-                            'rgba(255, 165, 184, 1)',
-                            'rgba(255, 165, 184, 1)',
-                            'rgba(255, 165, 184, 1)',
-                        ],
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Denúncia fechada',
-                        data: [1, 2, 3, 4, 5, 6],
-                        backgroundColor: [
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                            'rgba(75, 192, 192, 0.2)',
-                        ],
-                        borderColor: [
-                            'rgba(127, 210, 210, 1)',
-                            'rgba(127, 210, 210, 1)',
-                            'rgba(127, 210, 210, 1)',
-                            'rgba(127, 210, 210, 1)',
-                            'rgba(127, 210, 210, 1)',
-                            'rgba(127, 210, 210, 1)',
-                        ],
-                        borderWidth: 1
-                    }                
-                ],
+                            label: 'Denúncia aberta',
+                            data: [6, 5, 4, 3, 2, 1],
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                                'rgba(255, 99, 132, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(255, 165, 184, 1)',
+                                'rgba(255, 165, 184, 1)',
+                                'rgba(255, 165, 184, 1)',
+                                'rgba(255, 165, 184, 1)',
+                                'rgba(255, 165, 184, 1)',
+                                'rgba(255, 165, 184, 1)',
+                            ],
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Denúncia fechada',
+                            data: [1, 2, 3, 4, 5, 6],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(75, 192, 192, 0.2)',
+                            ],
+                            borderColor: [
+                                'rgba(127, 210, 210, 1)',
+                                'rgba(127, 210, 210, 1)',
+                                'rgba(127, 210, 210, 1)',
+                                'rgba(127, 210, 210, 1)',
+                                'rgba(127, 210, 210, 1)',
+                                'rgba(127, 210, 210, 1)',
+                            ],
+                            borderWidth: 1
+                        }
+                    ],
 
                 },
                 options: {
                     layout: {
-                    padding: 100
+                        padding: 0,
+                        
                     },
                     scales: {
                         y: {
