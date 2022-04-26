@@ -3107,7 +3107,7 @@ function mostrarGraficoDeBarrasDashboard(json){
        },
        options: {
           layout: {
-             padding: 0
+             padding: 5
           },
           scales: {
              y: {
