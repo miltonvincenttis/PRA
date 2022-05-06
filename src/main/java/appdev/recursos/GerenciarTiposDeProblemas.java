@@ -137,7 +137,7 @@ public class GerenciarTiposDeProblemas {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarTodos(){
-        Sort sort = Sort.descending("descricao");
+        Sort sort = Sort.ascending("descricao");
         List<TipoDeProblema> tdps = TipoDeProblema.listAll(sort);
 
         return Response.ok(tdps).build();

@@ -144,7 +144,7 @@ public class GerenciarPessoasRecurso {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response listarTodas(){
-        Sort sort = Sort.descending("nome");
+        Sort sort = Sort.ascending("nome");
         List pessoas = Pessoa.listAll(sort);
 
         return Response.ok(pessoas).build();
