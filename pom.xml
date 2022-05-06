@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>appdev</groupId>
   <artifactId>pra</artifactId>
-    <version>1.0.9-RELEASE</version>
+    <version>1.0.11-RELEASE</version>
   <properties>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <failsafe.useModulePath>false</failsafe.useModulePath>

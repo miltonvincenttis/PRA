@@ -3133,26 +3133,26 @@ function mostrarGraficoDeBarrasDashboard(json){
  * 
  * request: POST /dashboard
  */
-function requisitarDadosDashboardBackend(idCurtida) {
+function requisitarDadosDashboardBackend() {
     let resultado = false;
     let async = false;
     let xhr = new XMLHttpRequest();
-    let url = "http://quindar.io:8080/dashboard/+idCurtida";
+    let url = "http://quindar.io:8080/dashboard";
 
-    xhr.open("GET", url, async);
-    xhr.setRequestHeader("Content-Type", "text/plain");
+    xhr.open("POST", url, async);
+    xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onload = function () {
         if (xhr.readyState === 4) {
             switch (xhr.status) {
                 case 200: /** ok **/
-                    var curtidas = xhr.responseText
-                    mostrarCurtidas(curtidas)
+                    json = JSON.parse(xhr.responseText)
+                    mostrarGraficoDeBarrasDashboard(json)
                     resultado = true;
                     break;
                 case 400: /** bad request:  id de Pessoa ou id de Tipo de Problema não foram  **/
                 case 404: /** not found:    id de Pessoa ou id de Tipo de Problema não foram não existem  **/
                 case 500:
-                    alert('', 'Erro de servidor: ' + this.statusText)
+                    mostrarAlerta('', 'Erro de servidor: ' + this.statusText)
                     resultado = false;
                     break;
             }
